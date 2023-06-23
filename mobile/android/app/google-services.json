@@ -1,0 +1,46 @@
+{
+  "project_info": {
+    "project_number": "530372023150",
+    "project_id": "swiftly-by-qcodelabsllc",
+    "storage_bucket": "swiftly-by-qcodelabsllc.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:530372023150:android:4c3b243dfbdf75a6c4677f",
+        "android_client_info": {
+          "package_name": "io.qcodelabsllc.swiftly.mobile"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "530372023150-ps2qo1d6bm47502801to9gvqp1umhglp.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAcvoFN1aEjWsgIZISlEFHYAuRIrs-8_YY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "530372023150-ps2qo1d6bm47502801to9gvqp1umhglp.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "530372023150-mrpfp0k6re3hhnsv23ohk4prok4srvpj.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "io.qcodelabsllc.swiftly.mobile"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
