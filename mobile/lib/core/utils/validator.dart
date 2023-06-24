@@ -1,6 +1,11 @@
 import 'package:shared_utils/shared_utils.dart' show TextX;
 
 class Validators {
+  static String? validate(String? input) {
+    if (input.isNullOrEmpty()) return 'Required';
+    return null;
+  }
+
   static String? validateAuthCode(String? input) {
     input = input?.replaceAll(' ', '');
     if (input.isNullOrEmpty()) return 'Required';

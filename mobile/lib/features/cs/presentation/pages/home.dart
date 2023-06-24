@@ -8,6 +8,8 @@ import 'package:mobile/features/common/presentation/widgets/app.logo.dart';
 import 'package:mobile/generated/assets.dart';
 import 'package:shared_utils/shared_utils.dart';
 
+/// Customer service home page.
+/// Allows the user to interact with the customer service AI bot.
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
 

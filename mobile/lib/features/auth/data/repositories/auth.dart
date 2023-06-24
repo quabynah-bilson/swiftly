@@ -96,7 +96,8 @@ final class FirebaseAuthRepository implements BaseAuthRepository {
         if (user == null) return right(tr('auth_error_message'));
 
         await _persistentStorage.saveUserId(user.uid);
-        response.add(const PhoneAuthResponseVerificationCompleted());
+        response.add(PhoneAuthResponseVerificationCompleted(
+            _firebaseAuth.currentUser?.displayName));
       }
 
       // handles the code sent to the user's phone
@@ -140,7 +141,7 @@ final class FirebaseAuthRepository implements BaseAuthRepository {
   }
 
   @override
-  Future<Either<String, String>> verifyPhoneNumber({
+  Future<Either<bool, String>> verifyPhoneNumber({
     required String verificationId,
     required String otp,
   }) async {
@@ -152,13 +153,27 @@ final class FirebaseAuthRepository implements BaseAuthRepository {
       if (user == null) return right('Sign in aborted by user');
 
       await _persistentStorage.saveUserId(user.uid);
-      return left('Signed in successfully as ${user.phoneNumber}');
+      return left(user.displayName.isNullOrEmpty());
     } on FirebaseAuthException catch (e) {
       logger.e(e.message);
       if (e.code == 'invalid-verification-code') {
         return right('The OTP you entered is incorrect. Please try again.');
       }
 
+      return right(tr('auth_error_message'));
+    } on Exception catch (e) {
+      logger.e(e);
+      return right(tr('auth_error_message'));
+    }
+  }
+
+  @override
+  Future<Either<String, String>> updateUsername(String username) async {
+    try {
+      await _firebaseAuth.currentUser?.updateDisplayName(username);
+      return left(tr('username_updated'));
+    } on FirebaseAuthException catch (e) {
+      logger.e(e.message);
       return right(tr('auth_error_message'));
     } on Exception catch (e) {
       logger.e(e);

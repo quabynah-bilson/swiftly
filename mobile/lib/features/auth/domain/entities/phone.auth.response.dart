@@ -16,7 +16,8 @@ class PhoneAuthResponseCodeAutoRetrievalTimeout extends PhoneAuthResponse {
 }
 
 class PhoneAuthResponseVerificationCompleted extends PhoneAuthResponse {
-  const PhoneAuthResponseVerificationCompleted();
+  final String? displayName;
+  const PhoneAuthResponseVerificationCompleted(this.displayName);
 }
 
 class PhoneAuthResponseVerificationFailed extends PhoneAuthResponse {

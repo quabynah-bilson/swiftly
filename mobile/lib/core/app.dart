@@ -4,7 +4,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:mobile/core/di/injector.dart';
 import 'package:mobile/core/routing/router.dart';
 import 'package:mobile/core/utils/theme.dart';
 import 'package:mobile/features/auth/presentation/manager/auth_cubit.dart';
@@ -19,7 +18,7 @@ class SwiftlyApp extends StatefulWidget {
 }
 
 class _SwiftlyAppState extends State<SwiftlyApp> {
-  final _authCubit = AuthCubit(sl(),sl());
+  final _authCubit = AuthCubit();
 
   @override
   Widget build(BuildContext context) => DevicePreview(
