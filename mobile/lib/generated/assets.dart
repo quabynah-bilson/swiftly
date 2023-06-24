@@ -6,6 +6,7 @@ class Assets {
   static const String animLoading = 'assets/anim/loading.json';
   static const String animSuccess = 'assets/anim/success.json';
   static const String animUnderDev = 'assets/anim/under_dev.json';
+  static const String animUserLeaving = 'assets/anim/user_leaving.json';
   static const String brandBrandApple = 'assets/brand/brand_apple.svg';
   static const String brandBrandEmail = 'assets/brand/brand_email.svg';
   static const String brandBrandFacebook = 'assets/brand/brand_facebook.svg';

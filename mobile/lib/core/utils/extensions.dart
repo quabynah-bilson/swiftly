@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
@@ -66,12 +67,12 @@ extension BuildContextX on BuildContext {
                     width: width * 0.7)
                 .bottom(24),
             EmptyContentPlaceholder(
-                title: title ?? 'We are having troubles fixing this issue',
+                title: title ?? context.tr('auth_error_title'),
                 subtitle: message),
             SafeArea(
               top: false,
               child: AppRoundedButton(
-                text: actionLabel ?? 'Okay',
+                text: actionLabel ?? context.tr('okay'),
                 layoutSize: LayoutSize.standard,
                 onTap: () {
                   context.navigator.pop();

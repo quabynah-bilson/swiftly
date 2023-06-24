@@ -4,6 +4,7 @@ import 'package:mobile/features/auth/presentation/pages/phone.auth.dart';
 import 'package:mobile/features/auth/presentation/pages/user.auth.dart';
 import 'package:mobile/features/common/presentation/pages/splash.dart';
 import 'package:mobile/features/common/presentation/pages/welcome.dart';
+import 'package:mobile/features/cs/presentation/pages/home.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:shared_utils/shared_utils.dart';
 
@@ -25,13 +26,9 @@ final class AppRouterConfig {
       case AppRouter.phoneVerificationRoute:
         return MaterialWithModalsPageRoute(
             builder: (_) => const PhoneAuthPage(), settings: settings);
-
-      // case AppRouter.signUpRoute:
-      //   return MaterialWithModalsPageRoute(
-      //       builder: (_) => const RegisterAccountPage(), settings: settings);
-      // case AppRouter.signInRoute:
-      //   return MaterialWithModalsPageRoute(
-      //       builder: (_) => const LoginPage(), settings: settings);
+      case AppRouter.homeRoute:
+        return MaterialWithModalsPageRoute(
+            builder: (_) => const HomePage(), settings: settings);
     }
 
     return MaterialWithModalsPageRoute(
@@ -50,11 +47,11 @@ final class AppRouterConfig {
 
 sealed class AppRouter {
   /// onboarding
-  static const welcomeRoute = '/welcome'; // todo
-  static const userAuthRoute = '/'; // todo
-  static const phoneVerificationRoute = '/auth/phone'; // todo
+  static const welcomeRoute = '/welcome';
+  static const userAuthRoute = '/auth/user';
+  static const phoneVerificationRoute = '/auth/phone';
 
   /// general
-  static const initialRoute = '/auth/user'; // todo
+  static const initialRoute = '/';
   static const homeRoute = '/home'; // todo
 }

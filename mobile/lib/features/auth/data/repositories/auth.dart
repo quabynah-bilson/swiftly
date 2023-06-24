@@ -1,7 +1,9 @@
 import 'dart:async';
 
 import 'package:dartz/dartz.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/foundation.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:injectable/injectable.dart';
 import 'package:mobile/features/auth/domain/entities/phone.auth.response.dart';
@@ -36,13 +38,14 @@ final class FirebaseAuthRepository implements BaseAuthRepository {
       if (user == null) return right('Sign in aborted by user');
       await _persistentStorage.saveUserId(user.uid);
       return left(
-          'Signed in successfully ${user.displayName == null ? '' : 'as ${user.displayName}'}');
+          tr('signed_in_as', namedArgs: {'name': user.displayName ?? ''}));
     } on FirebaseAuthException catch (e) {
       logger.e(e.message);
-      return right('An unknown error occurred');
+      return right(tr('auth_error_message'));
     } on Exception catch (e) {
       logger.e(e);
-      return right('An unknown error occurred');
+      return right(
+          kReleaseMode ? tr('auth_error_message') : tr('under_dev_desc'));
     }
   }
 
@@ -60,13 +63,14 @@ final class FirebaseAuthRepository implements BaseAuthRepository {
       if (user == null) return right('Sign in aborted by user');
 
       await _persistentStorage.saveUserId(user.uid);
-      return left('Signed in successfully as ${user.displayName}');
+      return left(
+          tr('signed_in_as', namedArgs: {'name': user.displayName ?? ''}));
     } on FirebaseAuthException catch (e) {
       logger.e(e.message);
-      return right('An unknown error occurred');
+      return right(tr('auth_error_message'));
     } on Exception catch (e) {
       logger.e(e);
-      return right('An unknown error occurred');
+      return right(tr('auth_error_message'));
     }
   }
 
@@ -80,8 +84,8 @@ final class FirebaseAuthRepository implements BaseAuthRepository {
       // handles errors that occur during the sign in process
       verificationFailed(FirebaseAuthException e) {
         logger.e(e.message);
-        response.add(const PhoneAuthResponseVerificationFailed(
-            'Sorry, we could not verify your phone number. Please try again later.'));
+        response
+            .add(PhoneAuthResponseVerificationFailed(tr('phone_auth_error')));
       }
 
       // handles successful sign in
@@ -89,7 +93,7 @@ final class FirebaseAuthRepository implements BaseAuthRepository {
         var userCredential =
             await _firebaseAuth.signInWithCredential(credential);
         var user = userCredential.user;
-        if (user == null) return right('Sign in aborted by user');
+        if (user == null) return right(tr('auth_error_message'));
 
         await _persistentStorage.saveUserId(user.uid);
         response.add(const PhoneAuthResponseVerificationCompleted());
@@ -119,12 +123,10 @@ final class FirebaseAuthRepository implements BaseAuthRepository {
       );
     } on FirebaseAuthException catch (e) {
       logger.e(e.message);
-      response.add(const PhoneAuthResponseVerificationFailed(
-          'Sorry, we could not verify your phone number. Please try again later.'));
+      response.add(PhoneAuthResponseVerificationFailed(tr('phone_auth_error')));
     } on Exception catch (e) {
       logger.e(e);
-      response.add(const PhoneAuthResponseVerificationFailed(
-          'Sorry, we could not verify your phone number. Please try again later.'));
+      response.add(PhoneAuthResponseVerificationFailed(tr('phone_auth_error')));
     }
     return response.stream;
   }
@@ -134,6 +136,7 @@ final class FirebaseAuthRepository implements BaseAuthRepository {
     var account = _googleSignIn.currentUser;
     if (account != null) await _googleSignIn.signOut();
     await _firebaseAuth.signOut();
+    await _persistentStorage.clear();
   }
 
   @override
@@ -156,10 +159,10 @@ final class FirebaseAuthRepository implements BaseAuthRepository {
         return right('The OTP you entered is incorrect. Please try again.');
       }
 
-      return right('An unknown error occurred');
+      return right(tr('auth_error_message'));
     } on Exception catch (e) {
       logger.e(e);
-      return right('An unknown error occurred');
+      return right(tr('auth_error_message'));
     }
   }
 }
