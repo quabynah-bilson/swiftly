@@ -63,6 +63,7 @@ class DefaultFirebaseOptions {
     messagingSenderId: '530372023150',
     projectId: 'swiftly-by-qcodelabsllc',
     storageBucket: 'swiftly-by-qcodelabsllc.appspot.com',
+    androidClientId: '530372023150-h9c64nhe3ltchpm7vrd33ckljmok8mu8.apps.googleusercontent.com',
     iosClientId: '530372023150-mrpfp0k6re3hhnsv23ohk4prok4srvpj.apps.googleusercontent.com',
     iosBundleId: 'io.qcodelabsllc.swiftly.mobile',
   );

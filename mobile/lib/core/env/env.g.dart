@@ -8,20 +8,20 @@ part of 'env.dart';
 
 class _Env {
   static const List<int> _enviedkeykIntercomAppId = [
-    583222210,
-    1950896426,
-    2789633917,
-    1088260719,
-    3814713435,
-    2825233464
+    3239429624,
+    247825640,
+    2710858398,
+    218886804,
+    669895339,
+    831599088
   ];
   static const List<int> _envieddatakIntercomAppId = [
-    583222270,
-    1950896510,
-    2789633842,
-    1088260651,
-    3814713364,
-    2825233414
+    3239429572,
+    247825596,
+    2710858449,
+    218886864,
+    669895396,
+    831599054
   ];
   static final String kIntercomAppId = String.fromCharCodes(
     List.generate(_envieddatakIntercomAppId.length, (i) => i, growable: false)
@@ -29,20 +29,20 @@ class _Env {
         .toList(growable: false),
   );
   static const List<int> _enviedkeykIntercomIosApiKey = [
-    2451853670,
-    164606219,
-    215908590,
-    2711377665,
-    1303792425,
-    1160340423
+    3496157996,
+    1370555885,
+    977380636,
+    234501585,
+    1104515184,
+    1456186535
   ];
   static const List<int> _envieddatakIntercomIosApiKey = [
-    2451853658,
-    164606303,
-    215908513,
-    2711377733,
-    1303792486,
-    1160340473
+    3496157968,
+    1370555833,
+    977380691,
+    234501525,
+    1104515135,
+    1456186521
   ];
   static final String kIntercomIosApiKey = String.fromCharCodes(
     List.generate(_envieddatakIntercomIosApiKey.length, (i) => i,
@@ -52,20 +52,20 @@ class _Env {
         .toList(growable: false),
   );
   static const List<int> _enviedkeykIntercomAndroidApiKey = [
-    3785509192,
-    160812748,
-    4222857326,
-    401691936,
-    2443275591,
-    2596843059
+    2525156046,
+    2440851594,
+    1125420293,
+    3639101027,
+    600365029,
+    3778312750
   ];
   static const List<int> _envieddatakIntercomAndroidApiKey = [
-    3785509236,
-    160812696,
-    4222857249,
-    401692004,
-    2443275528,
-    2596843021
+    2525156082,
+    2440851678,
+    1125420362,
+    3639100967,
+    600364970,
+    3778312720
   ];
   static final String kIntercomAndroidApiKey = String.fromCharCodes(
     List.generate(_envieddatakIntercomAndroidApiKey.length, (i) => i,

@@ -134,11 +134,11 @@ ColorScheme useColorScheme([ThemeMode mode = ThemeMode.light]) =>
         ? ColorScheme.light(
             background: Colors.white,
             onBackground: Colors.black,
-            secondary: const Color(0xff151535),
+            secondary: const Color(0xff17134F),
             onSecondary: Colors.white,
-            secondaryContainer: const Color(0xff151535),
+            secondaryContainer: const Color(0xff17134F),
             onSecondaryContainer: Colors.white,
-            primary: const Color(0xff151535),
+            primary: const Color(0xff17134F),
             onPrimary: Colors.white,
             surface: const Color(0xffF2F3F5),
             onSurface: Colors.black,
@@ -240,7 +240,7 @@ TextTheme _textTheme([Color textColor = Colors.black]) => TextTheme(
       labelLarge: _primaryFont(
           color: textColor,
           fontSize: 15,
-          fontWeight: FontWeight.w400,
+          fontWeight: FontWeight.w500,
           letterSpacing: 1.25),
       bodySmall: _secondaryFont(
           color: textColor,

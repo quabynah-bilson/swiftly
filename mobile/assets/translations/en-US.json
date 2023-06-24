@@ -3,5 +3,20 @@
   "app_desc": "Elevate your lifestyle with our concierge, offering personalized services and extraordinary experiences.",
   "under_dev_title": "You're too early",
   "under_dev_desc": "We're still working on this page. Please check back later.",
-  "loading_desc": "Hang on a sec...we are setting up your personalized experience"
+  "loading_desc": "Hang on a sec...we are setting up your personalized experience",
+  "get_started": "Connect with us now",
+  "phone_auth_error_desc": "We are unable to verify your phone number. Please try again later.",
+  "auth_error_header": "Oops.. something went wrong",
+  "auth_error_desc": "There was an error authenticating you. Please try again later.",
+  "phone_auth_header": "Sign in with your phone number",
+  "phone_auth_desc": "We will send you a one time SMS message to verify your phone number. No carrier charges applied",
+  "phone_number_label": "Phone number",
+  "phone_number_hint": "Enter your phone number",
+  "auth_sign_in_with_phone": "Sign in with phone number",
+  "auth_sign_in_with_google": "Sign in with Google",
+  "auth_sign_in_with_apple": "Sign in with Apple",
+  "verify_phone": "Verify now",
+  "sign_in": "Sign in",
+  "phone_auth_code_sent_header": "We've sent you a code",
+  "phone_auth_code_sent_desc": "Please enter the 6 digit code sent to your phone number"
 }

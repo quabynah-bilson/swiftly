@@ -2,9 +2,11 @@
 class Assets {
   Assets._();
 
+  static const String animError = 'assets/anim/error.json';
   static const String animLoading = 'assets/anim/loading.json';
+  static const String animSuccess = 'assets/anim/success.json';
+  static const String animUnderDev = 'assets/anim/under_dev.json';
   static const String brandBrandApple = 'assets/brand/brand_apple.svg';
-  static const String brandBrandAppleLight = 'assets/brand/brand_apple_light.svg';
   static const String brandBrandEmail = 'assets/brand/brand_email.svg';
   static const String brandBrandFacebook = 'assets/brand/brand_facebook.svg';
   static const String brandBrandGithub = 'assets/brand/brand_github.svg';
@@ -12,6 +14,9 @@ class Assets {
   static const String brandBrandTwitter = 'assets/brand/brand_twitter.svg';
   static const String brandBrandYoutube = 'assets/brand/brand_youtube.svg';
   static const String imgAppLogo = 'assets/img/app_logo.png';
+  static const String imgWelcomeBg1 = 'assets/img/welcome_bg_1.webp';
+  static const String imgWelcomeBg2 = 'assets/img/welcome_bg_2.webp';
+  static const String imgWelcomeBg3 = 'assets/img/welcome_bg_3.webp';
   static const String translationsEnUS = 'assets/translations/en-US.json';
 
 }

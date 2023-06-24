@@ -12,13 +12,13 @@ import 'package:mobile/firebase_options.dart';
 GetIt sl = GetIt.instance;
 
 // register all dependencies
-@InjectableInit()
+@injectableInit
 Future<void> configureDependencies() async {
   // initialize easy localization
   await EasyLocalization.ensureInitialized();
 
   // animate configuration
-  Animate.restartOnHotReload = true;
+  Animate.restartOnHotReload = false;
 
   // initialize intercom
   // await Intercom.instance.initialize(Env.kIntercomAppId,

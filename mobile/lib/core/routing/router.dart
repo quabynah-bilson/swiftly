@@ -1,8 +1,9 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
-import 'package:lottie/lottie.dart';
-import 'package:mobile/features/common/presentation/widgets/app.logo.dart';
-import 'package:mobile/generated/assets.dart';
+import 'package:mobile/features/auth/presentation/pages/phone.auth.dart';
+import 'package:mobile/features/auth/presentation/pages/user.auth.dart';
+import 'package:mobile/features/common/presentation/pages/splash.dart';
+import 'package:mobile/features/common/presentation/pages/welcome.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:shared_utils/shared_utils.dart';
 
@@ -11,12 +12,20 @@ final class AppRouterConfig {
     // traverse routes
     switch (settings.name) {
       case AppRouter.initialRoute:
-        return _initialRouteBuilder(settings);
+        return MaterialWithModalsPageRoute(
+            builder: (_) => const SplashPage(), settings: settings);
 
       /// onboarding
-      // case AppRouter.resetPasswordRoute:
-      //   return MaterialWithModalsPageRoute(
-      //       builder: (_) => const ResetPasswordPage(), settings: settings);
+      case AppRouter.welcomeRoute:
+        return MaterialWithModalsPageRoute(
+            builder: (_) => const WelcomePage(), settings: settings);
+      case AppRouter.userAuthRoute:
+        return MaterialWithModalsPageRoute(
+            builder: (_) => const UserAuthPage(), settings: settings);
+      case AppRouter.phoneVerificationRoute:
+        return MaterialWithModalsPageRoute(
+            builder: (_) => const PhoneAuthPage(), settings: settings);
+
       // case AppRouter.signUpRoute:
       //   return MaterialWithModalsPageRoute(
       //       builder: (_) => const RegisterAccountPage(), settings: settings);
@@ -33,43 +42,19 @@ final class AppRouterConfig {
         body: EmptyContentPlaceholder(
             icon: TablerIcons.building_factory,
             title: context.tr('under_dev_title'),
-            subtitle: context.tr('under_dev_dev')),
+            subtitle: context.tr('under_dev_desc')),
       ),
     );
   }
-
-  static Route<dynamic> _initialRouteBuilder(RouteSettings? settings) =>
-      MaterialWithModalsPageRoute(
-          builder: (context) {
-            kUseDefaultOverlays(context,
-                statusBarBrightness: context.theme.brightness);
-            return Scaffold(
-              body: Builder(
-                builder: (context) => AnimatedColumn(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    const AppLogo().bottom(40),
-                    tr('loading_desc')
-                        .bodyText2(context,
-                            emphasis: kEmphasisMedium,
-                            alignment: TextAlign.center)
-                        .horizontal(context.width * 0.15),
-                    Lottie.asset(Assets.animLoading,
-                        height: context.height * 0.15, fit: BoxFit.cover),
-                  ],
-                ).centered(),
-              ),
-            );
-          },
-          settings: settings);
 }
 
 sealed class AppRouter {
   /// onboarding
-  static const resetPasswordRoute = '/auth/sign-in/reset-password'; // todo
-  static const phoneVerificationRoute = '/auth/phone-verification'; // todo
+  static const welcomeRoute = '/welcome'; // todo
+  static const userAuthRoute = '/'; // todo
+  static const phoneVerificationRoute = '/auth/phone'; // todo
 
   /// general
-  static const initialRoute = '/'; // todo
+  static const initialRoute = '/auth/user'; // todo
   static const homeRoute = '/home'; // todo
 }
