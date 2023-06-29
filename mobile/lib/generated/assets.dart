@@ -18,6 +18,7 @@ class Assets {
   static const String imgWelcomeBg1 = 'assets/img/welcome_bg_1.webp';
   static const String imgWelcomeBg2 = 'assets/img/welcome_bg_2.webp';
   static const String imgWelcomeBg3 = 'assets/img/welcome_bg_3.webp';
+  static const String imgWelcomeBg4 = 'assets/img/welcome_bg_4.webp';
   static const String translationsEnUS = 'assets/translations/en-US.json';
 
 }

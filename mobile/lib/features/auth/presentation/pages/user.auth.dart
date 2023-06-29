@@ -4,7 +4,6 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:heroicons/heroicons.dart';
 import 'package:mobile/core/routing/router.dart';
 import 'package:mobile/core/utils/extensions.dart';
 import 'package:mobile/features/auth/presentation/manager/auth_cubit.dart';
@@ -48,11 +47,12 @@ class _UserAuthPageState extends State<UserAuthPage> {
           _backgroundImage = Assets.imgWelcomeBg3;
           break;
         case Assets.imgWelcomeBg3:
+          _backgroundImage = Assets.imgWelcomeBg4;
+          break;
+        case Assets.imgWelcomeBg4:
           _backgroundImage = Assets.imgWelcomeBg1;
           break;
       }
-
-      // @todo -> remove this feature in production
       setState(() {});
     });
   }
@@ -80,45 +80,21 @@ class _UserAuthPageState extends State<UserAuthPage> {
             }
           },
           child: Scaffold(
-            body: Stack(
+            body: Column(
               children: [
-                // background image
-                Positioned.fill(
-                  child: ShaderMask(
-                    shaderCallback: (rect) => LinearGradient(
-                      begin: Alignment.topCenter,
-                      end: Alignment.bottomCenter,
-                      colors: [
-                        Colors.transparent,
-                        context.colorScheme.background,
-                      ],
-                    ).createShader(
-                        Rect.fromLTRB(0, 0, rect.width, rect.height)),
-                    blendMode: BlendMode.dstOut,
-                    child: RepaintBoundary(
-                      child: _backgroundImage
-                          .asAssetImage(
-                            fit: BoxFit.cover,
-                            width: context.width,
-                            height: context.height,
-                          )
-                          .animate(
-                              onPlay: (controller) => controller.repeat(
-                                  reverse: true, period: 2.seconds))
-                          .fadeIn(delay: 15.ms)
-                          .scaleXY(end: 1.1),
-                    ),
+                Container(
+                  width: context.width,
+                  padding: EdgeInsets.only(
+                      top: context.mediaQuery.padding.top + 20,
+                      bottom: 20,
+                      left: 20,
+                      right: 20),
+                  decoration: BoxDecoration(
+                    color: context.colorScheme.background,
                   ),
-                ),
-
-                // bottom content (logo, buttons, etc)
-                Positioned.fill(
-                  bottom: context.mediaQuery.padding.bottom,
-                  left: context.width * 0.1,
-                  right: context.width * 0.1,
                   child: Column(
+                    mainAxisSize: MainAxisSize.min,
                     crossAxisAlignment: CrossAxisAlignment.center,
-                    mainAxisAlignment: MainAxisAlignment.end,
                     children: [
                       const AppLogo().animate().shimmer(duration: 850.ms),
                       RepaintBoundary(
@@ -126,37 +102,86 @@ class _UserAuthPageState extends State<UserAuthPage> {
                             .subtitle2(context, alignment: TextAlign.center)
                             .animate()
                             .fadeIn(duration: 550.ms),
-                      ).top(8).bottom(40),
-                      AuthButton(
-                          label: context.tr('auth_sign_in_with_apple'),
-                          tint: context.colorScheme.onBackground,
-                          outlined: false,
-                          iconTint: context.colorScheme.background,
-                          onPressed: _authCubit.signInWithApple,
-                          brandIcon: Assets.brandBrandApple),
-                      AuthButton(
-                          label: context.tr('auth_sign_in_with_google'),
-                          onPressed: _authCubit.signInWithGoogle,
-                          brandIcon: Assets.brandBrandGoogle),
-                      Row(
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          const Expanded(
-                              child: Divider(endIndent: 24, indent: 24)),
-                          'or'.caption(context),
-                          const Expanded(
-                              child: Divider(endIndent: 24, indent: 24)),
-                        ],
-                      ).vertical(12),
-                      TextButton.icon(
-                        onPressed: () => context.navigator
-                            .pushNamed(AppRouter.phoneVerificationRoute),
-                        label: context
-                            .tr('auth_sign_in_with_phone')
-                            .button(context),
-                        icon: HeroIcon(HeroIcons.phone,
-                            color: context.colorScheme.onBackground),
-                      ).bottom(20),
+                      ).top(8),
+                    ],
+                  ),
+                ),
+                Expanded(
+                  child: Stack(
+                    children: [
+                      // background image
+                      Positioned.fill(
+                        child: ShaderMask(
+                          shaderCallback: (rect) => LinearGradient(
+                            begin: Alignment.topCenter,
+                            end: Alignment.bottomCenter,
+                            colors: [
+                              Colors.transparent,
+                              context.colorScheme.background,
+                            ],
+                          ).createShader(
+                              Rect.fromLTRB(0, 0, rect.width, rect.height)),
+                          blendMode: BlendMode.dstOut,
+                          child: RepaintBoundary(
+                            child: _backgroundImage
+                                .asAssetImage(
+                                  fit: BoxFit.cover,
+                                  width: context.width,
+                                  height: context.height,
+                                )
+                                .animate(
+                                    onPlay: (controller) => controller.repeat(
+                                        reverse: true, period: 2.seconds))
+                                .fadeIn(delay: 15.ms),
+                          ),
+                        ),
+                      ),
+
+                      // bottom content (logo, buttons, etc)
+                      Positioned.fill(
+                        bottom: context.mediaQuery.padding.bottom,
+                        left: context.width * 0.1,
+                        right: context.width * 0.1,
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          mainAxisAlignment: MainAxisAlignment.end,
+                          children: [
+                            AuthButton(
+                                label: context.tr('auth_sign_in_with_apple'),
+                                backgroundColor: context.colorScheme.background,
+                                outlined: false,
+                                foregroundColor:
+                                    context.colorScheme.onBackground,
+                                onPressed: _authCubit.signInWithApple,
+                                brandIcon: Assets.brandBrandApple),
+                            AuthButton(
+                                label: context.tr('auth_sign_in_with_google'),
+                                onPressed: _authCubit.signInWithGoogle,
+                                backgroundColor: context.colorScheme.background,
+                                outlined: false,
+                                foregroundColor:
+                                    context.colorScheme.onBackground,
+                                brandIcon: Assets.brandBrandGoogle),
+                            Row(
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: [
+                                const Expanded(
+                                    child: Divider(endIndent: 24, indent: 24)),
+                                'or'.caption(context),
+                                const Expanded(
+                                    child: Divider(endIndent: 24, indent: 24)),
+                              ],
+                            ).vertical(12),
+                            TextButton(
+                              onPressed: () => context.navigator
+                                  .pushNamed(AppRouter.phoneVerificationRoute),
+                              child: context
+                                  .tr('auth_sign_in_with_phone')
+                                  .button(context),
+                            ).bottom(20),
+                          ],
+                        ),
+                      ),
                     ],
                   ),
                 ),

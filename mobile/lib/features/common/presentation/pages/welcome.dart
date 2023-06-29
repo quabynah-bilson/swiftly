@@ -17,58 +17,83 @@ class WelcomePage extends StatefulWidget {
 class _WelcomePageState extends State<WelcomePage> {
   @override
   Widget build(BuildContext context) => Scaffold(
-        body: Stack(
+        body: Column(
           children: [
-            // background image
-            Positioned.fill(
-              child: ShaderMask(
-                shaderCallback: (rect) => LinearGradient(
-                  begin: Alignment.topCenter,
-                  end: Alignment.bottomCenter,
-                  colors: [
-                    Colors.transparent,
-                    context.colorScheme.background,
-                  ],
-                ).createShader(Rect.fromLTRB(0, 0, rect.width, rect.height)),
-                blendMode: BlendMode.dstOut,
-                child: Assets.imgWelcomeBg1.asAssetImage(
-                  fit: BoxFit.cover,
-                  width: context.width,
-                  height: context.height,
-                ),
+            Container(
+              width: context.width,
+              padding: EdgeInsets.only(
+                  top: context.mediaQuery.padding.top + 20,
+                  bottom: 20,
+                  left: 20,
+                  right: 20),
+              decoration: BoxDecoration(
+                color: context.colorScheme.background,
               ),
-            ),
-
-            // bottom content (logo, buttons, etc)
-            Positioned.fill(
-              bottom: context.mediaQuery.padding.bottom,
-              left: context.width * 0.1,
-              right: context.width * 0.1,
               child: Column(
+                mainAxisSize: MainAxisSize.min,
                 crossAxisAlignment: CrossAxisAlignment.center,
-                mainAxisAlignment: MainAxisAlignment.end,
                 children: [
                   const AppLogo().animate().shimmer(duration: 850.ms),
-                  tr('app_desc')
-                      .subtitle2(context, alignment: TextAlign.center)
-                      .animate()
-                      .fadeIn(duration: 550.ms)
-                      .top(8)
-                      .bottom(40),
                   RepaintBoundary(
-                    child: AppRoundedButton(
-                      text: context.tr('get_started'),
-                      onTap: () => context.navigator.pushNamedAndRemoveUntil(
-                          AppRouter.homeRoute, (route) => false),
-                      icon: TablerIcons.arrow_right,
-                      iconLocation: IconLocation.end,
-                    )
-                        .animate(
-                            onPlay: (controller) =>
-                                controller.repeat(reverse: false))
-                        .scaleXY(end: 1.1, duration: 850.ms)
-                        .then(delay: 150.ms)
-                        .scaleXY(end: 1 / 1.1),
+                    child: tr('app_desc')
+                        .subtitle2(context, alignment: TextAlign.center)
+                        .animate()
+                        .fadeIn(duration: 550.ms),
+                  ).top(8),
+                ],
+              ),
+            ),
+            Expanded(
+              child: Stack(
+                children: [
+                  // background image
+                  Positioned.fill(
+                    child: ShaderMask(
+                      shaderCallback: (rect) => LinearGradient(
+                        begin: Alignment.topCenter,
+                        end: Alignment.bottomCenter,
+                        colors: [
+                          Colors.transparent,
+                          context.colorScheme.background,
+                        ],
+                      ).createShader(
+                          Rect.fromLTRB(0, 0, rect.width, rect.height)),
+                      blendMode: BlendMode.dstOut,
+                      child: Assets.imgWelcomeBg1.asAssetImage(
+                        fit: BoxFit.cover,
+                        width: context.width,
+                        height: context.height,
+                      ),
+                    ),
+                  ),
+
+                  // bottom content (logo, buttons, etc)
+                  Positioned.fill(
+                    bottom: context.mediaQuery.padding.bottom,
+                    left: context.width * 0.1,
+                    right: context.width * 0.1,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      children: [
+                        RepaintBoundary(
+                          child: AppRoundedButton(
+                            text: context.tr('get_started'),
+                            onTap: () => context.navigator
+                                .pushNamedAndRemoveUntil(
+                                    AppRouter.homeRoute, (route) => false),
+                            icon: TablerIcons.arrow_right,
+                            iconLocation: IconLocation.end,
+                          )
+                              .animate(
+                                  onPlay: (controller) =>
+                                      controller.repeat(reverse: false))
+                              .scaleXY(end: 1.1, duration: 850.ms)
+                              .then(delay: 150.ms)
+                              .scaleXY(end: 1 / 1.1),
+                        ),
+                      ],
+                    ),
                   ),
                 ],
               ),
