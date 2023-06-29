@@ -156,7 +156,7 @@ ColorScheme useColorScheme([ThemeMode mode = ThemeMode.light]) =>
             onTertiaryContainer: Colors.black,
           )
         : ColorScheme.dark(
-            background: const Color(0xff212121),
+            background: const Color(0xff121212),
             // background: const Color(0xff2F3136),
             onBackground: Colors.white,
             // secondary: const Color(0xffFFA031),

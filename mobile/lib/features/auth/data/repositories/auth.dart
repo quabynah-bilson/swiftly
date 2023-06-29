@@ -35,7 +35,7 @@ final class FirebaseAuthRepository implements BaseAuthRepository {
       var credential =
           await _firebaseAuth.signInWithCredential(appleCredential);
       var user = credential.user;
-      if (user == null) return right('Sign in aborted by user');
+      if (user == null) return right(tr('auth_error_message'));
       await _persistentStorage.saveUserId(user.uid);
       return left(
           tr('signed_in_as', namedArgs: {'name': user.displayName ?? ''}));
@@ -53,14 +53,14 @@ final class FirebaseAuthRepository implements BaseAuthRepository {
   Future<Either<String, String>> signInWithGoogle() async {
     try {
       var account = await _googleSignIn.signIn();
-      if (account == null) return right('Sign in aborted by user');
+      if (account == null) return right(tr('auth_error_message'));
 
       var auth = await account.authentication;
       var credential = GoogleAuthProvider.credential(
           accessToken: auth.accessToken, idToken: auth.idToken);
       var userCredential = await _firebaseAuth.signInWithCredential(credential);
       var user = userCredential.user;
-      if (user == null) return right('Sign in aborted by user');
+      if (user == null) return right(tr('auth_error_message'));
 
       await _persistentStorage.saveUserId(user.uid);
       return left(
@@ -150,7 +150,7 @@ final class FirebaseAuthRepository implements BaseAuthRepository {
           verificationId: verificationId, smsCode: otp);
       var userCredential = await _firebaseAuth.signInWithCredential(credential);
       var user = userCredential.user;
-      if (user == null) return right('Sign in aborted by user');
+      if (user == null) return right(tr('auth_error_message'));
 
       await _persistentStorage.saveUserId(user.uid);
       return left(user.displayName.isNullOrEmpty());

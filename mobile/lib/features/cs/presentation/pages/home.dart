@@ -2,6 +2,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:heroicons/heroicons.dart';
+import 'package:intercom_flutter/intercom_flutter.dart';
 import 'package:mobile/core/utils/extensions.dart';
 import 'package:mobile/features/auth/presentation/manager/auth_cubit.dart';
 import 'package:mobile/features/common/presentation/widgets/app.logo.dart';
@@ -19,6 +20,13 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   var _loading = false;
+
+  @override
+  void initState() {
+    super.initState();
+    // start intercom messenger after a delay
+    doAfterDelay(Intercom.instance.displayMessenger);
+  }
 
   @override
   Widget build(BuildContext context) => LoadingIndicator(

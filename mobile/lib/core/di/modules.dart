@@ -1,10 +1,12 @@
+import 'dart:io';
+
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:injectable/injectable.dart';
+import 'package:intercom_flutter/intercom_flutter.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:shared_utils/shared_utils.dart';
-// import 'package:intercom_flutter/intercom_flutter.dart';
 
 @module
 abstract class SecureStorageModule {
@@ -20,14 +22,16 @@ abstract class FirebaseModule {
   @preResolve
   Future<FirebaseMessaging> get firebaseMessaging async {
     var messaging = FirebaseMessaging.instance;
-    var token = await messaging.getToken();
+    var token = Platform.isIOS
+        ? await messaging.getAPNSToken()
+        : await messaging.getToken();
     logger.i('FirebaseMessaging token: $token');
 
     // handle background messages
     FirebaseMessaging.onBackgroundMessage(backgroundMessageHandler);
 
-    // @todo - uncomment this when intercom is ready
-    // if (token != null) Intercom.instance.sendTokenToIntercom(token);
+    // pass token to intercom
+    if (token != null) Intercom.instance.sendTokenToIntercom(token);
 
     return messaging;
   }
@@ -44,11 +48,11 @@ Future<void> backgroundMessageHandler(RemoteMessage message) async {
   final data = message.data;
   logger.d('Handling a background message: $data');
 
-  // @todo - uncomment this when intercom is ready
-  // if (await Intercom.isIntercomPush(data)) {
-  //   await Intercom.handlePush(data);
-  //   return;
-  // }
+  // handle intercom push notifications
+  if (await Intercom.instance.isIntercomPush(data)) {
+    await Intercom.instance.handlePush(data);
+    return;
+  }
 
-  // Here you can handle your own background messages
+  // @todo -> Here you can handle your own background messages
 }
