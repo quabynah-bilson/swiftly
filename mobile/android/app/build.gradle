@@ -35,7 +35,7 @@ apply plugin: 'kotlin-android'
 apply from: "$flutterRoot/packages/flutter_tools/gradle/flutter.gradle"
 
 android {
-    namespace "io.qcodelabsllc.swiftly.mobile"
+    namespace "com.swiftly.android"
     compileSdkVersion flutter.compileSdkVersion
     ndkVersion flutter.ndkVersion
 
@@ -53,7 +53,7 @@ android {
     }
 
     defaultConfig {
-        applicationId "io.qcodelabsllc.swiftly.mobile"
+        applicationId "com.swiftly.android"
         minSdkVersion 23
         targetSdkVersion flutter.targetSdkVersion
         versionCode flutterVersionCode.toInteger()

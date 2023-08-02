@@ -22,7 +22,7 @@ class _SwiftlyAppState extends State<SwiftlyApp> {
 
   @override
   Widget build(BuildContext context) => DevicePreview(
-        enabled: !kReleaseMode,
+        enabled:  false,// !kReleaseMode,
         builder: (_) => DismissKeyboard(
           child: MultiBlocProvider(
             providers: [

@@ -9,7 +9,7 @@
 
     <application
         android:name=".SwiftlyApp"
-        android:icon="@mipmap/ic_launcher"
+        android:icon="@mipmap/launcher_icon"
         android:label="Swiftly">
         <activity
             android:name=".MainActivity"
