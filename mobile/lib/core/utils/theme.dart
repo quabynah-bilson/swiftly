@@ -184,7 +184,7 @@ ColorScheme useColorScheme([ThemeMode mode = ThemeMode.light]) =>
 
 /// setup font
 const _primaryFont = GoogleFonts.dmSans,
-    _bigTitleFont = GoogleFonts.pathwayExtreme,
+    _bigTitleFont = GoogleFonts.dmSans,
     _secondaryFont = GoogleFonts.dmSans;
 
 TextTheme _textTheme([Color textColor = Colors.black]) => TextTheme(

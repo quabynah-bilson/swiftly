@@ -1,7 +1,6 @@
 import 'package:device_preview/device_preview.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:mobile/core/routing/router.dart';
@@ -22,7 +21,7 @@ class _SwiftlyAppState extends State<SwiftlyApp> {
 
   @override
   Widget build(BuildContext context) => DevicePreview(
-        enabled:  false,// !kReleaseMode,
+        enabled: false, // !kReleaseMode,
         builder: (_) => DismissKeyboard(
           child: MultiBlocProvider(
             providers: [

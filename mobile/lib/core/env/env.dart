@@ -13,4 +13,10 @@ abstract class Env {
 
   @EnviedField(varName: 'INTERCOM_ANDROID_API_KEY')
   static final String kIntercomAndroidApiKey = _Env.kIntercomAndroidApiKey;
+
+  @EnviedField(varName: 'STRIPE_PUBLISHABLE_KEY')
+  static final String kStripePublishableKey = _Env.kStripePublishableKey;
+
+  @EnviedField(varName: 'STRIPE_SECRET_KEY')
+  static final String kStripeSecretKey = _Env.kStripeSecretKey;
 }

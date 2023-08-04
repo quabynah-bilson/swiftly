@@ -7,7 +7,6 @@ import 'package:intercom_flutter/intercom_flutter.dart';
 import 'package:mobile/core/di/injector.config.dart';
 import 'package:mobile/core/env/env.dart';
 import 'package:mobile/firebase_options.dart';
-import 'package:shared_utils/shared_utils.dart';
 
 // service locator instance
 GetIt sl = GetIt.instance;
@@ -20,8 +19,6 @@ Future<void> configureDependencies() async {
 
   // animate configuration
   Animate.restartOnHotReload = false;
-
-  logger.d('Initializing dependencies => ${Env.kIntercomIosApiKey}');
 
   // initialize intercom
   await Intercom.instance.initialize(Env.kIntercomAppId,
