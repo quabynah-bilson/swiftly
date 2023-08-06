@@ -39,7 +39,7 @@ class _SplashPageState extends State<SplashPage> {
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               const AppLogo().bottom(40),
-              tr('loading_desc')
+              'loading_desc'.tr()
                   .bodyText2(context,
                       emphasis: kEmphasisMedium, alignment: TextAlign.center)
                   .horizontal(context.width * 0.15),

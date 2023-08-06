@@ -51,7 +51,7 @@ class DefaultFirebaseOptions {
 
   static const FirebaseOptions android = FirebaseOptions(
     apiKey: 'AIzaSyAcvoFN1aEjWsgIZISlEFHYAuRIrs-8_YY',
-    appId: '1:530372023150:android:4c3b243dfbdf75a6c4677f',
+    appId: '1:530372023150:android:620aa8c083dfad0fc4677f',
     messagingSenderId: '530372023150',
     projectId: 'swiftly-by-qcodelabsllc',
     storageBucket: 'swiftly-by-qcodelabsllc.appspot.com',
@@ -59,12 +59,12 @@ class DefaultFirebaseOptions {
 
   static const FirebaseOptions ios = FirebaseOptions(
     apiKey: 'AIzaSyBP0UjKfVkbHf-JlFKpYaVRdpXXM3Xug8g',
-    appId: '1:530372023150:ios:72cc8e5cb512c22fc4677f',
+    appId: '1:530372023150:ios:4b5d27f819a85ca2c4677f',
     messagingSenderId: '530372023150',
     projectId: 'swiftly-by-qcodelabsllc',
     storageBucket: 'swiftly-by-qcodelabsllc.appspot.com',
     androidClientId: '530372023150-h9c64nhe3ltchpm7vrd33ckljmok8mu8.apps.googleusercontent.com',
-    iosClientId: '530372023150-mrpfp0k6re3hhnsv23ohk4prok4srvpj.apps.googleusercontent.com',
-    iosBundleId: 'io.qcodelabsllc.swiftly.mobile',
+    iosClientId: '530372023150-ql99f70s1flvhenli4714srso3tvg4p6.apps.googleusercontent.com',
+    iosBundleId: 'com.swiftly.ios',
   );
 }

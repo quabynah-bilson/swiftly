@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:mobile/core/routing/router.dart';
 import 'package:mobile/features/common/presentation/widgets/app.logo.dart';
-import 'package:mobile/generated/assets.dart';
+import 'package:mobile/features/common/presentation/widgets/onboarding.pager.dart';
 import 'package:shared_utils/shared_utils.dart';
 
 /// Welcome page for authenticated users
@@ -22,10 +22,7 @@ class _WelcomePageState extends State<WelcomePage> {
             Container(
               width: context.width,
               padding: EdgeInsets.only(
-                  top: context.mediaQuery.padding.top + 20,
-                  bottom: 20,
-                  left: 20,
-                  right: 20),
+                  top: context.mediaQuery.padding.top + 20, bottom: 20),
               decoration: BoxDecoration(
                 color: context.colorScheme.background,
               ),
@@ -34,12 +31,9 @@ class _WelcomePageState extends State<WelcomePage> {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   const AppLogo().animate().shimmer(duration: 850.ms),
-                  RepaintBoundary(
-                    child: tr('app_desc')
-                        .subtitle2(context, alignment: TextAlign.center)
-                        .animate()
-                        .fadeIn(duration: 550.ms),
-                  ).top(8),
+                  tr('app_desc')
+                      .subtitle2(context, alignment: TextAlign.center)
+                      .horizontal(context.width * 0.2),
                 ],
               ),
             ),
@@ -47,25 +41,7 @@ class _WelcomePageState extends State<WelcomePage> {
               child: Stack(
                 children: [
                   // background image
-                  Positioned.fill(
-                    child: ShaderMask(
-                      shaderCallback: (rect) => LinearGradient(
-                        begin: Alignment.topCenter,
-                        end: Alignment.bottomCenter,
-                        colors: [
-                          Colors.transparent,
-                          context.colorScheme.background,
-                        ],
-                      ).createShader(
-                          Rect.fromLTRB(0, 0, rect.width, rect.height)),
-                      blendMode: BlendMode.dstOut,
-                      child: Assets.imgWelcomeBg1.asAssetImage(
-                        fit: BoxFit.cover,
-                        width: context.width,
-                        height: context.height,
-                      ),
-                    ),
-                  ),
+                  const Positioned.fill(child: OnboardingPager()),
 
                   // bottom content (logo, buttons, etc)
                   Positioned.fill(
@@ -78,7 +54,7 @@ class _WelcomePageState extends State<WelcomePage> {
                       children: [
                         RepaintBoundary(
                           child: AppRoundedButton(
-                            text: context.tr('get_started'),
+                            text: 'get_started'.tr(),
                             onTap: () => context.navigator
                                 .pushNamedAndRemoveUntil(
                                     AppRouter.homeRoute, (route) => false),

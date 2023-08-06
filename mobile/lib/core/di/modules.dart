@@ -41,6 +41,9 @@ abstract class FirebaseModule {
 
   @lazySingleton
   GoogleSignIn get googleSignIn => GoogleSignIn();
+
+  // @singleton
+  // FirebaseFirestore get firestore => FirebaseFirestore.instance;
 }
 
 // background message handler for firebase messaging

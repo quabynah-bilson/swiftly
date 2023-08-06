@@ -9,6 +9,7 @@ import 'package:mobile/core/utils/extensions.dart';
 import 'package:mobile/features/auth/presentation/manager/auth_cubit.dart';
 import 'package:mobile/features/common/presentation/widgets/app.logo.dart';
 import 'package:mobile/features/common/presentation/widgets/auth.button.dart';
+import 'package:mobile/features/common/presentation/widgets/onboarding.pager.dart';
 import 'package:mobile/generated/assets.dart';
 import 'package:shared_utils/shared_utils.dart';
 
@@ -21,41 +22,8 @@ class UserAuthPage extends StatefulWidget {
 }
 
 class _UserAuthPageState extends State<UserAuthPage> {
-  var _loading = false, _backgroundImage = Assets.imgWelcomeBg1;
+  var _loading = false;
   final _authCubit = AuthCubit();
-
-  late final Timer _timer;
-
-  @override
-  void dispose() {
-    _timer.cancel();
-    super.dispose();
-  }
-
-  @override
-  void initState() {
-    super.initState();
-    _timer = Timer.periodic(4035.ms, (_) {
-      if (!mounted) return;
-
-      // select the next image one after the other
-      switch (_backgroundImage) {
-        case Assets.imgWelcomeBg1:
-          _backgroundImage = Assets.imgWelcomeBg2;
-          break;
-        case Assets.imgWelcomeBg2:
-          _backgroundImage = Assets.imgWelcomeBg3;
-          break;
-        case Assets.imgWelcomeBg3:
-          _backgroundImage = Assets.imgWelcomeBg4;
-          break;
-        case Assets.imgWelcomeBg4:
-          _backgroundImage = Assets.imgWelcomeBg1;
-          break;
-      }
-      setState(() {});
-    });
-  }
 
   @override
   Widget build(BuildContext context) => LoadingIndicator(
@@ -71,7 +39,7 @@ class _UserAuthPageState extends State<UserAuthPage> {
 
             if (state is ErrorState<String>) {
               context.showMessageDialog(state.failure,
-                  title: context.tr('auth_error_header'));
+                  title: 'auth_error_header'.tr());
             }
 
             if (state is SuccessState<String>) {
@@ -85,10 +53,7 @@ class _UserAuthPageState extends State<UserAuthPage> {
                 Container(
                   width: context.width,
                   padding: EdgeInsets.only(
-                      top: context.mediaQuery.padding.top + 20,
-                      bottom: 20,
-                      left: 20,
-                      right: 20),
+                      top: context.mediaQuery.padding.top + 20, bottom: 20),
                   decoration: BoxDecoration(
                     color: context.colorScheme.background,
                   ),
@@ -97,12 +62,10 @@ class _UserAuthPageState extends State<UserAuthPage> {
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
                       const AppLogo().animate().shimmer(duration: 850.ms),
-                      RepaintBoundary(
-                        child: tr('app_desc')
-                            .subtitle2(context, alignment: TextAlign.center)
-                            .animate()
-                            .fadeIn(duration: 550.ms),
-                      ).top(8),
+                      tr('app_desc')
+                          .subtitle2(context, alignment: TextAlign.center)
+                          .horizontal(context.width * 0.1)
+                          .top(8),
                     ],
                   ),
                 ),
@@ -110,32 +73,7 @@ class _UserAuthPageState extends State<UserAuthPage> {
                   child: Stack(
                     children: [
                       // background image
-                      Positioned.fill(
-                        child: ShaderMask(
-                          shaderCallback: (rect) => LinearGradient(
-                            begin: Alignment.topCenter,
-                            end: Alignment.bottomCenter,
-                            colors: [
-                              Colors.transparent,
-                              context.colorScheme.background,
-                            ],
-                          ).createShader(
-                              Rect.fromLTRB(0, 0, rect.width, rect.height)),
-                          blendMode: BlendMode.dstOut,
-                          child: RepaintBoundary(
-                            child: _backgroundImage
-                                .asAssetImage(
-                                  fit: BoxFit.cover,
-                                  width: context.width,
-                                  height: context.height,
-                                )
-                                .animate(
-                                    onPlay: (controller) => controller.repeat(
-                                        reverse: true, period: 2.seconds))
-                                .fadeIn(delay: 15.ms),
-                          ),
-                        ),
-                      ),
+                      const Positioned.fill(child: OnboardingPager()),
 
                       // bottom content (logo, buttons, etc)
                       Positioned.fill(
@@ -147,7 +85,7 @@ class _UserAuthPageState extends State<UserAuthPage> {
                           mainAxisAlignment: MainAxisAlignment.end,
                           children: [
                             AuthButton(
-                                label: context.tr('auth_sign_in_with_apple'),
+                                label: 'auth_sign_in_with_apple'.tr(),
                                 backgroundColor: context.colorScheme.background,
                                 outlined: false,
                                 foregroundColor:
@@ -155,7 +93,7 @@ class _UserAuthPageState extends State<UserAuthPage> {
                                 onPressed: _authCubit.signInWithApple,
                                 brandIcon: Assets.brandBrandApple),
                             AuthButton(
-                                label: context.tr('auth_sign_in_with_google'),
+                                label: 'auth_sign_in_with_google'.tr(),
                                 onPressed: _authCubit.signInWithGoogle,
                                 backgroundColor: context.colorScheme.background,
                                 outlined: false,
@@ -167,7 +105,7 @@ class _UserAuthPageState extends State<UserAuthPage> {
                               children: [
                                 const Expanded(
                                     child: Divider(endIndent: 24, indent: 24)),
-                                'or'.caption(context),
+                                'or'.tr().caption(context),
                                 const Expanded(
                                     child: Divider(endIndent: 24, indent: 24)),
                               ],
@@ -175,8 +113,8 @@ class _UserAuthPageState extends State<UserAuthPage> {
                             TextButton(
                               onPressed: () => context.navigator
                                   .pushNamed(AppRouter.phoneVerificationRoute),
-                              child: context
-                                  .tr('auth_sign_in_with_phone')
+                              child: 'auth_sign_in_with_phone'
+                                  .tr()
                                   .button(context),
                             ).bottom(20),
                           ],

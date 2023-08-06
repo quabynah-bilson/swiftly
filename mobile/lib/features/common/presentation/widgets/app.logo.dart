@@ -11,22 +11,7 @@ class AppLogo extends StatelessWidget {
   const AppLogo({super.key, this.isLargeText = true});
 
   @override
-  Widget build(BuildContext context) => Text(
-        context.tr('app_name'),
-        style: TextStyle(
-            fontStyle: FontStyle.italic,
-            fontSize: (isLargeText
-                    ? context.textTheme.headlineLarge
-                    : context.textTheme.headlineSmall)
-                ?.fontSize,
-            fontWeight: FontWeight.bold),
-      );
-
-  // @override
-  // Widget build(BuildContext context) => SvgPicture.asset(
-  //       Assets.imgAppLogo,
-  //       colorFilter: ColorFilter.mode(Colors.black, BlendMode.srcIn),
-  //       height: 40,
-  //       width: context.width,
-  //     );
+  Widget build(BuildContext context) => Assets.imgAppLogo.asAssetImage(
+    width:context.width * (isLargeText ? 0.3 : 0.18),
+  );
 }

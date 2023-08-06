@@ -7,20 +7,12 @@
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:530372023150:android:4c3b243dfbdf75a6c4677f",
+        "mobilesdk_app_id": "1:530372023150:android:620aa8c083dfad0fc4677f",
         "android_client_info": {
-          "package_name": "io.qcodelabsllc.swiftly.mobile"
+          "package_name": "com.swiftly.android"
         }
       },
       "oauth_client": [
-        {
-          "client_id": "530372023150-h9c64nhe3ltchpm7vrd33ckljmok8mu8.apps.googleusercontent.com",
-          "client_type": 1,
-          "android_info": {
-            "package_name": "io.qcodelabsllc.swiftly.mobile",
-            "certificate_hash": "34da2328406665eb7d4d53d271113bf3558b1af0"
-          }
-        },
         {
           "client_id": "530372023150-qjvmp6k7s27l4bgp873v1hdjmqp1nv62.apps.googleusercontent.com",
           "client_type": 3
@@ -39,10 +31,10 @@
               "client_type": 3
             },
             {
-              "client_id": "530372023150-mrpfp0k6re3hhnsv23ohk4prok4srvpj.apps.googleusercontent.com",
+              "client_id": "530372023150-0j03j6u419h8gi6jdd3pc4tr6juv3fik.apps.googleusercontent.com",
               "client_type": 2,
               "ios_info": {
-                "bundle_id": "io.qcodelabsllc.swiftly.mobile"
+                "bundle_id": "com.swiftly.mobile"
               }
             }
           ]

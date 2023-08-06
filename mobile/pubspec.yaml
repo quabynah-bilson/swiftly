@@ -50,6 +50,7 @@ dependencies:
   flutter_localizations:
     sdk: flutter
   sign_in_with_apple: ^5.0.0
+  json_annotation: ^4.8.1
 
 dev_dependencies:
   build_runner: ^2.4.5
@@ -63,6 +64,7 @@ dev_dependencies:
   mocktail: ^0.3.0
   flutter_native_splash:
   retrofit_generator: ^7.0.8
+  json_serializable: ^6.7.1
 
 
 flutter:
