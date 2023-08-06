@@ -35,7 +35,7 @@ class _SwiftlyAppState extends State<SwiftlyApp> {
               title: tr('app_name'),
               theme: context.useLightTheme,
               darkTheme: context.useDarkTheme,
-              themeMode: ThemeMode.system,
+              themeMode: ThemeMode.light,
               onGenerateRoute: AppRouterConfig.setupRoutes,
               scrollBehavior: const CupertinoScrollBehavior(),
             ),

@@ -1,5 +1,8 @@
 import 'dart:async';
+import 'dart:convert';
+import 'dart:math';
 
+import 'package:crypto/crypto.dart';
 import 'package:dartz/dartz.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -21,19 +24,33 @@ final class FirebaseAuthRepository implements BaseAuthRepository {
   const FirebaseAuthRepository(
       this._firebaseAuth, this._googleSignIn, this._persistentStorage);
 
+  String get rawNonce {
+    const charset =
+        '0123456789ABCDEFGHIJKLMNOPQRSTUVXYZabcdefghijklmnopqrstuvwxyz-._';
+    final random = Random.secure();
+    var nonce =
+        List.generate(32, (_) => charset[random.nextInt(charset.length)])
+            .join();
+    final bytes = utf8.encode(nonce);
+    final digest = sha256.convert(bytes);
+    return digest.toString();
+  }
+
   @override
   Future<Either<String, String>> signInWithApple() async {
     try {
-      final response = await SignInWithApple.getAppleIDCredential(
+      final appleCredential = await SignInWithApple.getAppleIDCredential(
         scopes: [
           AppleIDAuthorizationScopes.email,
           AppleIDAuthorizationScopes.fullName,
         ],
       );
-      var appleCredential =
-          AppleAuthProvider.credential(response.authorizationCode);
+      final oauthCredential = OAuthProvider("apple.com").credential(
+        idToken: appleCredential.identityToken,
+        rawNonce: rawNonce,
+      );
       var credential =
-          await _firebaseAuth.signInWithCredential(appleCredential);
+          await _firebaseAuth.signInWithCredential(oauthCredential);
       var user = credential.user;
       if (user == null) return right(tr('auth_error_message'));
       await _persistentStorage.saveUserId(user.uid);

@@ -1,5 +1,3 @@
-import 'dart:async';
-
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
@@ -88,8 +86,8 @@ class _UserAuthPageState extends State<UserAuthPage> {
                                 label: 'auth_sign_in_with_apple'.tr(),
                                 backgroundColor: context.colorScheme.background,
                                 outlined: false,
-                                foregroundColor:
-                                    context.colorScheme.onBackground,
+                                textColor: context.colorScheme.onBackground,
+                                iconColor: context.colorScheme.onBackground,
                                 onPressed: _authCubit.signInWithApple,
                                 brandIcon: Assets.brandBrandApple),
                             AuthButton(
@@ -97,8 +95,7 @@ class _UserAuthPageState extends State<UserAuthPage> {
                                 onPressed: _authCubit.signInWithGoogle,
                                 backgroundColor: context.colorScheme.background,
                                 outlined: false,
-                                foregroundColor:
-                                    context.colorScheme.onBackground,
+                                textColor: context.colorScheme.onBackground,
                                 brandIcon: Assets.brandBrandGoogle),
                             Row(
                               crossAxisAlignment: CrossAxisAlignment.center,

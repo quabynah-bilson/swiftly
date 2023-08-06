@@ -1,6 +1,4 @@
-import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:mobile/generated/assets.dart';
 import 'package:shared_utils/shared_utils.dart';
 
@@ -12,6 +10,6 @@ class AppLogo extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => Assets.imgAppLogo.asAssetImage(
-    width:context.width * (isLargeText ? 0.3 : 0.18),
-  );
+        width: context.width * (isLargeText ? 0.3 : 0.18),
+      );
 }

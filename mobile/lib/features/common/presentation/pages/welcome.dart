@@ -33,7 +33,7 @@ class _WelcomePageState extends State<WelcomePage> {
                   const AppLogo().animate().shimmer(duration: 850.ms),
                   tr('app_desc')
                       .subtitle2(context, alignment: TextAlign.center)
-                      .horizontal(context.width * 0.2),
+                      .horizontal(context.width * 0.1).top(8),
                 ],
               ),
             ),
