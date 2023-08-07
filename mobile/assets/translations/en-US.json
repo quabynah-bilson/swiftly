@@ -29,6 +29,7 @@
   "signed_in_as": "Signed in as {name}",
   "username_updated": "Username updated successfully",
   "username_label": "What should we call you?",
+  "password_label": "Password",
   "username_hint": "Enter your name",
   "save": "Save changes",
   "change_username_header": "Update your username",
@@ -58,6 +59,8 @@
     "phone_auth_error": "Sorry, we could not verify your phone number. Please try again later.",
     "error_occurred": "An error occurred. Please try again later.",
     "invalid_zip_code": "Invalid zip code",
-    "invalid_credit_card_expiry_date": "Invalid expiry date"
+    "invalid_credit_card_expiry_date": "Invalid expiry date",
+    "invalid_credit_card_number": "Invalid credit card number",
+    "invalid_credit_card_cvv": "Invalid CVV"
   }
 }

@@ -137,4 +137,6 @@ extension ScrollX on ScrollController {
 
 extension StringX on String {
   bool get isNumeric => num.tryParse(this) != null;
+
+  bool get isCreditCard => length == 16 && isNumeric;
 }

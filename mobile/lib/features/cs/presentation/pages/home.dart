@@ -2,7 +2,6 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:heroicons/heroicons.dart';
-import 'package:intercom_flutter/intercom_flutter.dart';
 import 'package:mobile/core/utils/extensions.dart';
 import 'package:mobile/features/auth/presentation/manager/auth_cubit.dart';
 import 'package:mobile/features/common/presentation/widgets/app.logo.dart';
@@ -25,7 +24,7 @@ class _HomePageState extends State<HomePage> {
   void initState() {
     super.initState();
     // start intercom messenger after a delay
-    doAfterDelay(Intercom.instance.displayMessenger);
+    // doAfterDelay(Intercom.instance.displayMessenger);
   }
 
   @override
@@ -70,6 +69,10 @@ class _HomePageState extends State<HomePage> {
                 ),
               ],
             ),
+            body: EmptyContentPlaceholder(
+                icon: TablerIcons.message_chatbot,
+                title: tr('under_dev_title'),
+                subtitle: tr('under_dev_desc')),
           ),
         ),
       );

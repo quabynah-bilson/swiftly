@@ -1,6 +1,7 @@
 import 'package:dartz/dartz.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:injectable/injectable.dart';
+import 'package:mobile/core/utils/extensions.dart';
 import 'package:mobile/features/common/data/data_sources/local/local.dart';
 import 'package:mobile/features/common/data/data_sources/remote/remote.dart';
 import 'package:mobile/features/common/data/models/user.mapper.dart';
@@ -31,15 +32,24 @@ final class UserRepository implements BaseUserRepository {
     var uid = await _persistentStorage.getUserId();
     if (uid.isNullOrEmpty()) return right('errors.user_not_found');
 
+    // validate zip code
     if (zipCode.length != 5) return right(tr('errors.invalid_zip_code'));
+
+    // validate credit card expiry date
     var (month, year) = _splitCreditCardExpiryDate(creditCardExpiryDate);
     var now = DateTime.now();
     if (year < now.year || (year == now.year && month < now.month)) {
       return right(tr('errors.invalid_credit_card_expiry_date'));
     }
 
+    // validate phone number
     if (_validatePhoneNumber(phoneNumber)) {
       return right(tr('errors.invalid_phone_number'));
+    }
+
+    // validate credit card number
+    if (!creditCardNumber.isCreditCard) {
+      return right(tr('errors.invalid_credit_card_number'));
     }
 
     var user = UserEntity(

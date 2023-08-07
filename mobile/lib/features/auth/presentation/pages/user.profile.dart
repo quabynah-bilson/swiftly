@@ -26,6 +26,7 @@ class _UserProfilePageState extends State<UserProfilePage> {
       _fullNameController = TextEditingController(
           text: '${widget.authResult.firstName} ${widget.authResult.lastName}'),
       _emailController = TextEditingController(text: widget.authResult.email),
+      _passwordController = TextEditingController(),
       _phoneNumberController =
           TextEditingController(text: widget.authResult.phoneNumber),
       _creditCardNumberController = TextEditingController(),
@@ -121,6 +122,14 @@ class _UserProfilePageState extends State<UserProfilePage> {
                               verticalPadding: 20,
                               validator: (value) =>
                                   value!.isEmpty ? tr('email_required') : null),
+                          FilledTextField(tr('password_label'),
+                              controller: _passwordController,
+                              type: AppTextFieldType.password,
+                              enabled: !_loading,
+                              verticalPadding: 20,
+                              validator: (value) => value!.isEmpty
+                                  ? tr('password_required')
+                                  : null),
                           const Divider().bottom(20),
                           FilledTextField(tr('phone_number_label'),
                               controller: _phoneNumberController,
@@ -235,6 +244,7 @@ class _UserProfilePageState extends State<UserProfilePage> {
           creditCardNumber = _creditCardNumberController.text.trim(),
           creditCardExpiryDate = _creditCardExpiryDateController.text.trim(),
           creditCardCvv = _creditCardCvvController.text.trim(),
+
           creditCardZipCode = _creditCardZipCodeController.text.trim();
 
       _userCubit.createUser(
