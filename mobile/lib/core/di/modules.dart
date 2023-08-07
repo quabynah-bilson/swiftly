@@ -1,10 +1,13 @@
 import 'dart:io';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 import 'package:injectable/injectable.dart';
 import 'package:intercom_flutter/intercom_flutter.dart';
+import 'package:mobile/features/common/data/models/user.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:shared_utils/shared_utils.dart';
 
@@ -42,8 +45,16 @@ abstract class FirebaseModule {
   @lazySingleton
   GoogleSignIn get googleSignIn => GoogleSignIn();
 
-  // @singleton
-  // FirebaseFirestore get firestore => FirebaseFirestore.instance;
+  @singleton
+  FirebaseFirestore get firestore => FirebaseFirestore.instance;
+}
+
+@module
+abstract class HiveModule {
+  @singleton
+  @preResolve
+  Future<Box<UserModel>> get userBox async =>
+      await Hive.openBox<UserModel>('users');
 }
 
 // background message handler for firebase messaging

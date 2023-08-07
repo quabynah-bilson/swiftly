@@ -2,10 +2,12 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:get_it/get_it.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 import 'package:injectable/injectable.dart';
 import 'package:intercom_flutter/intercom_flutter.dart';
 import 'package:mobile/core/di/injector.config.dart';
 import 'package:mobile/core/env/env.dart';
+import 'package:mobile/features/common/data/data_sources/local/adapters.dart';
 import 'package:mobile/firebase_options.dart';
 
 // service locator instance
@@ -28,6 +30,10 @@ Future<void> configureDependencies() async {
   // initialize firebase
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
 
+  // initialize hive
+  await Hive.initFlutter();
+  Hive.registerAdapter(UserAdapter());
+
   // initialize injectable
-  sl.init();
+  await sl.init();
 }

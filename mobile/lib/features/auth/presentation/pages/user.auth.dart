@@ -4,6 +4,7 @@ import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:mobile/core/routing/router.dart';
 import 'package:mobile/core/utils/extensions.dart';
+import 'package:mobile/features/auth/domain/entities/auth.result.dart';
 import 'package:mobile/features/auth/presentation/manager/auth_cubit.dart';
 import 'package:mobile/features/common/presentation/widgets/app.logo.dart';
 import 'package:mobile/features/common/presentation/widgets/auth.button.dart';
@@ -40,9 +41,10 @@ class _UserAuthPageState extends State<UserAuthPage> {
                   title: 'auth_error_header'.tr());
             }
 
-            if (state is SuccessState<String>) {
+            if (state is SuccessState<AuthResult>) {
               context.navigator.pushNamedAndRemoveUntil(
-                  AppRouter.homeRoute, (route) => false);
+                  AppRouter.userProfileRoute, (route) => false,
+                  arguments: state.data);
             }
           },
           child: Scaffold(

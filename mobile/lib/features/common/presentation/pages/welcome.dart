@@ -33,7 +33,8 @@ class _WelcomePageState extends State<WelcomePage> {
                   const AppLogo().animate().shimmer(duration: 850.ms),
                   tr('app_desc')
                       .subtitle2(context, alignment: TextAlign.center)
-                      .horizontal(context.width * 0.1).top(8),
+                      .horizontal(context.width * 0.1)
+                      .top(8),
                 ],
               ),
             ),
@@ -54,19 +55,10 @@ class _WelcomePageState extends State<WelcomePage> {
                       children: [
                         RepaintBoundary(
                           child: AppRoundedButton(
-                            text: 'get_started'.tr(),
-                            onTap: () => context.navigator
-                                .pushNamedAndRemoveUntil(
-                                    AppRouter.homeRoute, (route) => false),
-                            icon: TablerIcons.arrow_right,
-                            iconLocation: IconLocation.end,
-                          )
-                              .animate(
-                                  onPlay: (controller) =>
-                                      controller.repeat(reverse: false))
-                              .scaleXY(end: 1.1, duration: 850.ms)
-                              .then(delay: 150.ms)
-                              .scaleXY(end: 1 / 1.1),
+                              text: tr('get_started'),
+                              onTap: () => context.navigator
+                                  .pushNamedAndRemoveUntil(
+                                      AppRouter.homeRoute, (route) => false)),
                         ),
                       ],
                     ),

@@ -2,6 +2,7 @@ import 'package:bloc/bloc.dart';
 import 'package:mobile/core/di/injector.dart';
 import 'package:mobile/core/routing/router.dart';
 import 'package:mobile/core/utils/constants.dart';
+import 'package:mobile/features/auth/domain/entities/auth.result.dart';
 import 'package:mobile/features/auth/domain/entities/phone.auth.response.dart';
 import 'package:mobile/features/auth/domain/repositories/auth.dart';
 import 'package:mobile/features/common/domain/repositories/persistent.storage.dart';
@@ -27,7 +28,7 @@ class AuthCubit extends Cubit<BlocState> {
     emit(BlocState.loadingState());
     var either = await sl<BaseAuthRepository>().signInWithApple();
     either.fold(
-      (l) => emit(BlocState<String>.successState(data: l)),
+      (l) => emit(BlocState<AuthResult>.successState(data: l)),
       (r) => emit(BlocState<String>.errorState(failure: r)),
     );
   }
@@ -37,7 +38,7 @@ class AuthCubit extends Cubit<BlocState> {
     emit(BlocState.loadingState());
     var either = await sl<BaseAuthRepository>().signInWithGoogle();
     either.fold(
-      (l) => emit(BlocState<String>.successState(data: l)),
+      (l) => emit(BlocState<AuthResult>.successState(data: l)),
       (r) => emit(BlocState<String>.errorState(failure: r)),
     );
   }

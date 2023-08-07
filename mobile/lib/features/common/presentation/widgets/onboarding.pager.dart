@@ -10,9 +10,7 @@ class OnboardingPager extends StatefulWidget {
 }
 
 class _OnboardingPagerState extends State<OnboardingPager> {
-  var _currentPage = 0;
-  final _pageController = PageController(),
-      _images = [
+  final _images = [
         Assets.imgWelcomeBg1,
         Assets.imgWelcomeBg2,
         Assets.imgWelcomeBg3,
@@ -21,8 +19,6 @@ class _OnboardingPagerState extends State<OnboardingPager> {
 
   @override
   Widget build(BuildContext context) => PageView.builder(
-        controller: _pageController,
-        onPageChanged: (page) => setState(() => _currentPage = page),
         itemBuilder: (context, index) {
           var backgroundImage = _images[index];
           return ShaderMask(

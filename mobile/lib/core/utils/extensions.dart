@@ -67,7 +67,7 @@ extension BuildContextX on BuildContext {
                     width: width * 0.7)
                 .bottom(24),
             EmptyContentPlaceholder(
-                title: title ?? context.tr('auth_error_title'),
+                title: title ?? context.tr('errors.auth_error_title'),
                 subtitle: message),
             SafeArea(
               top: false,

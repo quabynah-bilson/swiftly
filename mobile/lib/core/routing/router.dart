@@ -1,7 +1,9 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:mobile/features/auth/domain/entities/auth.result.dart';
 import 'package:mobile/features/auth/presentation/pages/phone.auth.dart';
 import 'package:mobile/features/auth/presentation/pages/user.auth.dart';
+import 'package:mobile/features/auth/presentation/pages/user.profile.dart';
 import 'package:mobile/features/common/presentation/pages/splash.dart';
 import 'package:mobile/features/common/presentation/pages/welcome.dart';
 import 'package:mobile/features/cs/presentation/pages/home.dart';
@@ -26,6 +28,11 @@ final class AppRouterConfig {
       case AppRouter.phoneVerificationRoute:
         return MaterialWithModalsPageRoute(
             builder: (_) => const PhoneAuthPage(), settings: settings);
+      case AppRouter.userProfileRoute:
+        return MaterialWithModalsPageRoute(
+            builder: (_) =>
+                UserProfilePage(authResult: settings.arguments as AuthResult),
+            settings: settings);
       case AppRouter.homeRoute:
         return MaterialWithModalsPageRoute(
             builder: (_) => const HomePage(), settings: settings);
@@ -50,6 +57,7 @@ sealed class AppRouter {
   static const welcomeRoute = '/welcome';
   static const userAuthRoute = '/auth/user';
   static const phoneVerificationRoute = '/auth/phone';
+  static const userProfileRoute = '/auth/user-profile';
 
   /// general
   static const initialRoute = '/';

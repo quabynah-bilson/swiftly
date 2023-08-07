@@ -9,6 +9,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/foundation.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:injectable/injectable.dart';
+import 'package:mobile/features/auth/domain/entities/auth.result.dart';
 import 'package:mobile/features/auth/domain/entities/phone.auth.response.dart';
 import 'package:mobile/features/auth/domain/repositories/auth.dart';
 import 'package:mobile/features/common/domain/repositories/persistent.storage.dart';
@@ -37,14 +38,10 @@ final class FirebaseAuthRepository implements BaseAuthRepository {
   }
 
   @override
-  Future<Either<String, String>> signInWithApple() async {
+  Future<Either<AuthResult, String>> signInWithApple() async {
     try {
       final appleCredential = await SignInWithApple.getAppleIDCredential(
-        scopes: [
-          AppleIDAuthorizationScopes.email,
-          AppleIDAuthorizationScopes.fullName,
-        ],
-      );
+          scopes: AppleIDAuthorizationScopes.values);
       final oauthCredential = OAuthProvider("apple.com").credential(
         idToken: appleCredential.identityToken,
         rawNonce: rawNonce,
@@ -52,42 +49,77 @@ final class FirebaseAuthRepository implements BaseAuthRepository {
       var credential =
           await _firebaseAuth.signInWithCredential(oauthCredential);
       var user = credential.user;
-      if (user == null) return right(tr('auth_error_message'));
+      if (user == null) return right(tr('errors.auth_error_message'));
       await _persistentStorage.saveUserId(user.uid);
-      return left(
-          tr('signed_in_as', namedArgs: {'name': user.displayName ?? ''}));
+
+      String firstName = '', lastName = '';
+      if (appleCredential.givenName != null) {
+        firstName = appleCredential.givenName!;
+      }
+
+      if (appleCredential.familyName != null) {
+        lastName = appleCredential.familyName!;
+      }
+
+      var result = AuthResult.create(
+        uid: user.uid,
+        firstName: firstName,
+        lastName: lastName,
+        email: user.email,
+        photoUrl: user.photoURL,
+        phoneNumber: user.phoneNumber,
+      );
+      return left(result);
     } on FirebaseAuthException catch (e) {
       logger.e(e.message);
-      return right(tr('auth_error_message'));
+      return right(tr('errors.auth_error_message'));
     } on Exception catch (e) {
       logger.e(e);
-      return right(
-          kReleaseMode ? tr('auth_error_message') : tr('under_dev_desc'));
+      return right(kReleaseMode
+          ? tr('errors.auth_error_message')
+          : tr('under_dev_desc'));
     }
   }
 
   @override
-  Future<Either<String, String>> signInWithGoogle() async {
+  Future<Either<AuthResult, String>> signInWithGoogle() async {
     try {
       var account = await _googleSignIn.signIn();
-      if (account == null) return right(tr('auth_error_message'));
+      if (account == null) return right(tr('errors.auth_error_message'));
 
       var auth = await account.authentication;
       var credential = GoogleAuthProvider.credential(
           accessToken: auth.accessToken, idToken: auth.idToken);
       var userCredential = await _firebaseAuth.signInWithCredential(credential);
       var user = userCredential.user;
-      if (user == null) return right(tr('auth_error_message'));
+      if (user == null) return right(tr('errors.auth_error_message'));
 
       await _persistentStorage.saveUserId(user.uid);
-      return left(
-          tr('signed_in_as', namedArgs: {'name': user.displayName ?? ''}));
+
+      String firstName = '', lastName = '';
+      if (user.displayName != null) {
+        var names = user.displayName!.split(' ');
+        firstName = names[0];
+        if (names.length > 1) {
+          lastName = names[1];
+        }
+      }
+
+      var result = AuthResult.create(
+        uid: user.uid,
+        firstName: firstName,
+        lastName: lastName,
+        email: user.email,
+        photoUrl: user.photoURL,
+        phoneNumber: user.phoneNumber,
+      );
+      return left(result);
     } on FirebaseAuthException catch (e) {
       logger.e(e.message);
-      return right(tr('auth_error_message'));
+      return right(tr('errors.auth_error_message'));
     } on Exception catch (e) {
       logger.e(e);
-      return right(tr('auth_error_message'));
+      return right(tr('errors.auth_error_message'));
     }
   }
 
@@ -101,8 +133,8 @@ final class FirebaseAuthRepository implements BaseAuthRepository {
       // handles errors that occur during the sign in process
       verificationFailed(FirebaseAuthException e) {
         logger.e(e.message);
-        response
-            .add(PhoneAuthResponseVerificationFailed(tr('phone_auth_error')));
+        response.add(
+            PhoneAuthResponseVerificationFailed(tr('errors.phone_auth_error')));
       }
 
       // handles successful sign in
@@ -110,7 +142,7 @@ final class FirebaseAuthRepository implements BaseAuthRepository {
         var userCredential =
             await _firebaseAuth.signInWithCredential(credential);
         var user = userCredential.user;
-        if (user == null) return right(tr('auth_error_message'));
+        if (user == null) return right(tr('errors.auth_error_message'));
 
         await _persistentStorage.saveUserId(user.uid);
         response.add(PhoneAuthResponseVerificationCompleted(
@@ -141,10 +173,12 @@ final class FirebaseAuthRepository implements BaseAuthRepository {
       );
     } on FirebaseAuthException catch (e) {
       logger.e(e.message);
-      response.add(PhoneAuthResponseVerificationFailed(tr('phone_auth_error')));
+      response.add(
+          PhoneAuthResponseVerificationFailed(tr('errors.phone_auth_error')));
     } on Exception catch (e) {
       logger.e(e);
-      response.add(PhoneAuthResponseVerificationFailed(tr('phone_auth_error')));
+      response.add(
+          PhoneAuthResponseVerificationFailed(tr('errors.phone_auth_error')));
     }
     return response.stream;
   }
@@ -167,7 +201,7 @@ final class FirebaseAuthRepository implements BaseAuthRepository {
           verificationId: verificationId, smsCode: otp);
       var userCredential = await _firebaseAuth.signInWithCredential(credential);
       var user = userCredential.user;
-      if (user == null) return right(tr('auth_error_message'));
+      if (user == null) return right(tr('errors.auth_error_message'));
 
       await _persistentStorage.saveUserId(user.uid);
       return left(user.displayName.isNullOrEmpty());
@@ -177,10 +211,10 @@ final class FirebaseAuthRepository implements BaseAuthRepository {
         return right('The OTP you entered is incorrect. Please try again.');
       }
 
-      return right(tr('auth_error_message'));
+      return right(tr('errors.auth_error_message'));
     } on Exception catch (e) {
       logger.e(e);
-      return right(tr('auth_error_message'));
+      return right(tr('errors.auth_error_message'));
     }
   }
 
@@ -191,10 +225,10 @@ final class FirebaseAuthRepository implements BaseAuthRepository {
       return left(tr('username_updated'));
     } on FirebaseAuthException catch (e) {
       logger.e(e.message);
-      return right(tr('auth_error_message'));
+      return right(tr('errors.auth_error_message'));
     } on Exception catch (e) {
       logger.e(e);
-      return right(tr('auth_error_message'));
+      return right(tr('errors.auth_error_message'));
     }
   }
 }
