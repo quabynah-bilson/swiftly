@@ -19,6 +19,7 @@ class UserCubit extends Cubit<BlocState> {
     required String creditCardExpiryDate,
     required String creditCardCvv,
     required String zipCode,
+    required String password,
     String? photoUrl,
   }) async {
     emit(BlocState.loadingState());
@@ -31,6 +32,7 @@ class UserCubit extends Cubit<BlocState> {
       creditCardExpiryDate: creditCardExpiryDate,
       creditCardCvv: creditCardCvv,
       zipCode: zipCode,
+      password: password,
     );
     result.fold(
       (l) => emit(BlocState<void>.successState(data: null)),

@@ -14,6 +14,7 @@ abstract interface class BaseUserRepository {
     required String creditCardExpiryDate,
     required String creditCardCvv,
     required String zipCode,
+    required String password,
     String? photoUrl,
   });
 

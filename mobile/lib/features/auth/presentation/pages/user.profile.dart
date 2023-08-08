@@ -244,12 +244,13 @@ class _UserProfilePageState extends State<UserProfilePage> {
           creditCardNumber = _creditCardNumberController.text.trim(),
           creditCardExpiryDate = _creditCardExpiryDateController.text.trim(),
           creditCardCvv = _creditCardCvvController.text.trim(),
-
+          password = _passwordController.text.trim(),
           creditCardZipCode = _creditCardZipCodeController.text.trim();
 
       _userCubit.createUser(
         name: fullName,
         email: email,
+        password: password,
         photoUrl: widget.authResult.photoUrl,
         phoneNumber: phoneNumber,
         creditCardNumber: creditCardNumber,

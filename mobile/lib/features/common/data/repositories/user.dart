@@ -27,6 +27,7 @@ final class UserRepository implements BaseUserRepository {
     required String creditCardExpiryDate,
     required String creditCardCvv,
     required String zipCode,
+    required String password,
     String? photoUrl,
   }) async {
     var uid = await _persistentStorage.getUserId();
@@ -51,6 +52,13 @@ final class UserRepository implements BaseUserRepository {
     if (!creditCardNumber.isCreditCard) {
       return right(tr('errors.invalid_credit_card_number'));
     }
+
+    // validate credit card cvv
+    if (creditCardCvv.length != 3) {
+      return right(tr('errors.invalid_credit_card_cvv'));
+    }
+
+    // @fixme -> bind user to the password
 
     var user = UserEntity(
       id: uid!,
