@@ -5,7 +5,6 @@ import 'package:mobile/features/auth/presentation/pages/phone.auth.dart';
 import 'package:mobile/features/auth/presentation/pages/user.auth.dart';
 import 'package:mobile/features/auth/presentation/pages/user.profile.dart';
 import 'package:mobile/features/common/presentation/pages/splash.dart';
-import 'package:mobile/features/common/presentation/pages/welcome.dart';
 import 'package:mobile/features/cs/presentation/pages/home.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:shared_utils/shared_utils.dart';
@@ -19,9 +18,6 @@ final class AppRouterConfig {
             builder: (_) => const SplashPage(), settings: settings);
 
       /// onboarding
-      case AppRouter.welcomeRoute:
-        return MaterialWithModalsPageRoute(
-            builder: (_) => const WelcomePage(), settings: settings);
       case AppRouter.userAuthRoute:
         return MaterialWithModalsPageRoute(
             builder: (_) => const UserAuthPage(), settings: settings);
@@ -54,7 +50,6 @@ final class AppRouterConfig {
 
 sealed class AppRouter {
   /// onboarding
-  static const welcomeRoute = '/welcome';
   static const userAuthRoute = '/auth/user';
   static const phoneVerificationRoute = '/auth/phone';
   static const userProfileRoute = '/auth/user-profile';

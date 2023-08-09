@@ -110,12 +110,12 @@ class _UserAuthPageState extends State<UserAuthPage> {
                               ],
                             ).vertical(12),
                             TextButton(
-                              onPressed: () => context.navigator
-                                  .pushNamed(AppRouter.phoneVerificationRoute),
-                              child: 'auth_sign_in_with_phone'
-                                  .tr()
-                                  .button(context),
-                            ).bottom(20),
+                                    onPressed: () => context.navigator
+                                        .pushNamed(
+                                            AppRouter.phoneVerificationRoute),
+                                    child: tr('auth_sign_in_with_phone')
+                                        .button(context))
+                                .bottom(20),
                           ],
                         ),
                       ),

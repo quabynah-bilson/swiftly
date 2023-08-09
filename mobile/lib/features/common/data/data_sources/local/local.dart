@@ -6,6 +6,7 @@ import 'package:hive_flutter/hive_flutter.dart';
 import 'package:injectable/injectable.dart';
 import 'package:mobile/features/common/data/models/user.dart';
 import 'package:mobile/features/common/domain/repositories/persistent.storage.dart';
+import 'package:shared_utils/shared_utils.dart';
 
 @singleton
 final class UserLocalDataSource {
@@ -17,14 +18,21 @@ final class UserLocalDataSource {
   UserLocalDataSource(this._box, this._storage);
 
   Future<void> saveUser(UserModel user) async {
-    await _box.put(user.id, user);
-    if (_controller.isClosed) _controller = StreamController.broadcast();
-    _controller.add(user);
+    try {
+      await _box.put(user.id, user);
+      _controller.addStream(Stream<UserModel>.value(user));
+    } catch (e) {
+      logger.e(e);
+    }
   }
 
   Future<void> deleteUser(String id) async {
-    await _box.delete(id);
-    await _controller.close();
+    try {
+      await _box.delete(id);
+      // await _controller.close();
+    } catch (e) {
+      logger.e(e);
+    }
   }
 
   Future<Either<Stream<UserModel>, String>> get currentUser async {

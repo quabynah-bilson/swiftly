@@ -19,7 +19,7 @@ class AuthCubit extends Cubit<BlocState> {
     var isAuthenticated = await sl<BasePersistentStorage>().getUserId() != null;
     emit(BlocState<String>.successState(
         data: isAuthenticated
-            ? AppRouter.welcomeRoute
+            ? AppRouter.homeRoute
             : AppRouter.userAuthRoute));
   }
 

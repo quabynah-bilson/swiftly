@@ -138,5 +138,8 @@ extension ScrollX on ScrollController {
 extension StringX on String {
   bool get isNumeric => num.tryParse(this) != null;
 
-  bool get isCreditCard => length == 16 && isNumeric;
+  bool get isCreditCard {
+    var updatedValue = trim().replaceAll(' ', '');
+    return updatedValue.length == 16 && updatedValue.isNumeric;
+  }
 }
