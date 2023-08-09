@@ -1,3 +1,5 @@
+import 'package:mobile/features/auth/domain/entities/auth.result.dart';
+
 /// Response from phone authentication
 sealed class PhoneAuthResponse {
   const PhoneAuthResponse();
@@ -16,8 +18,8 @@ class PhoneAuthResponseCodeAutoRetrievalTimeout extends PhoneAuthResponse {
 }
 
 class PhoneAuthResponseVerificationCompleted extends PhoneAuthResponse {
-  final String? displayName;
-  const PhoneAuthResponseVerificationCompleted(this.displayName);
+  final AuthResult result;
+  const PhoneAuthResponseVerificationCompleted(this.result);
 }
 
 class PhoneAuthResponseVerificationFailed extends PhoneAuthResponse {

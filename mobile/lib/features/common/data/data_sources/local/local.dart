@@ -13,14 +13,14 @@ final class UserLocalDataSource {
   final Box<UserModel> _box;
   final BasePersistentStorage _storage;
 
-  StreamController<UserModel> _controller = StreamController.broadcast();
+  final StreamController<UserModel> _controller = StreamController.broadcast();
 
   UserLocalDataSource(this._box, this._storage);
 
   Future<void> saveUser(UserModel user) async {
     try {
       await _box.put(user.id, user);
-      _controller.addStream(Stream<UserModel>.value(user));
+      _controller.add(user);
     } catch (e) {
       logger.e(e);
     }
@@ -29,18 +29,26 @@ final class UserLocalDataSource {
   Future<void> deleteUser(String id) async {
     try {
       await _box.delete(id);
-      // await _controller.close();
+      await _controller.close();
     } catch (e) {
       logger.e(e);
     }
   }
 
   Future<Either<Stream<UserModel>, String>> get currentUser async {
-    final id = await _storage.getUserId();
-    if (id == null) return right(tr('errors.user_not_found'));
-    final user = _box.watch(key: id);
-    _controller
-        .addStream(user.map((event) => event.deleted ? null : event.value));
-    return left(_controller.stream);
+    try {
+      final id = await _storage.getUserId();
+      if (id == null) return right(tr('errors.user_not_found'));
+      final user = _box.watch(key: id);
+      // @fixme: this is a hack to fix the issue of multiple listeners
+      // if(!_controller.hasListener) {
+      //   await _controller
+      //       .addStream(user.map((event) => event.deleted ? null : event.value));
+      // }
+      return left(_controller.stream);
+    } catch (e) {
+      logger.e(e);
+      return right(tr('errors.user_not_found'));
+    }
   }
 }

@@ -2,6 +2,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:mobile/core/di/injector.dart';
 import 'package:mobile/core/routing/router.dart';
 import 'package:mobile/core/utils/extensions.dart';
 import 'package:mobile/features/auth/domain/entities/auth.result.dart';
@@ -22,7 +23,7 @@ class UserAuthPage extends StatefulWidget {
 
 class _UserAuthPageState extends State<UserAuthPage> {
   var _loading = false;
-  final _authCubit = AuthCubit();
+  final _authCubit = sl<AuthCubit>();
 
   @override
   Widget build(BuildContext context) => LoadingIndicator(

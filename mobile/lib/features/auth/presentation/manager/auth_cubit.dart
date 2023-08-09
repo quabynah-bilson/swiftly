@@ -1,4 +1,5 @@
 import 'package:bloc/bloc.dart';
+import 'package:injectable/injectable.dart';
 import 'package:mobile/core/di/injector.dart';
 import 'package:mobile/core/routing/router.dart';
 import 'package:mobile/core/utils/constants.dart';
@@ -9,8 +10,12 @@ import 'package:mobile/features/common/domain/repositories/persistent.storage.da
 import 'package:shared_utils/shared_utils.dart';
 
 /// Authentication cubit
+@injectable
 class AuthCubit extends Cubit<BlocState> {
-  AuthCubit() : super(BlocState.initialState());
+  final BaseAuthRepository _authRepo;
+
+  @factoryMethod
+  AuthCubit(this._authRepo) : super(BlocState.initialState());
 
   /// check if user is authenticated
   Future<void> checkAuthState() async {
@@ -18,15 +23,13 @@ class AuthCubit extends Cubit<BlocState> {
     await Future.delayed(kDurationFakeLoading);
     var isAuthenticated = await sl<BasePersistentStorage>().getUserId() != null;
     emit(BlocState<String>.successState(
-        data: isAuthenticated
-            ? AppRouter.homeRoute
-            : AppRouter.userAuthRoute));
+        data: isAuthenticated ? AppRouter.homeRoute : AppRouter.userAuthRoute));
   }
 
   /// sign in with apple
   Future<void> signInWithApple() async {
     emit(BlocState.loadingState());
-    var either = await sl<BaseAuthRepository>().signInWithApple();
+    var either = await _authRepo.signInWithApple();
     either.fold(
       (l) => emit(BlocState<AuthResult>.successState(data: l)),
       (r) => emit(BlocState<String>.errorState(failure: r)),
@@ -36,7 +39,7 @@ class AuthCubit extends Cubit<BlocState> {
   /// sign in with google
   Future<void> signInWithGoogle() async {
     emit(BlocState.loadingState());
-    var either = await sl<BaseAuthRepository>().signInWithGoogle();
+    var either = await _authRepo.signInWithGoogle();
     either.fold(
       (l) => emit(BlocState<AuthResult>.successState(data: l)),
       (r) => emit(BlocState<String>.errorState(failure: r)),
@@ -46,8 +49,7 @@ class AuthCubit extends Cubit<BlocState> {
   /// sign in with phone number
   Future<void> signInWithPhoneNumber(String phoneNumber) async {
     emit(BlocState.loadingState());
-    var stream =
-        await sl<BaseAuthRepository>().signInWithPhoneNumber(phoneNumber);
+    var stream = await _authRepo.signInWithPhoneNumber(phoneNumber);
     stream.listen((event) =>
         emit(BlocState<PhoneAuthResponse>.successState(data: event)));
   }
@@ -57,17 +59,17 @@ class AuthCubit extends Cubit<BlocState> {
     required String otp,
   }) async {
     emit(BlocState.loadingState());
-    var either = await sl<BaseAuthRepository>()
-        .verifyPhoneNumber(verificationId: verificationId, otp: otp);
+    var either = await _authRepo.verifyPhoneNumber(
+        verificationId: verificationId, otp: otp);
     either.fold(
-      (l) => emit(BlocState<bool>.successState(data: l)),
+      (l) => emit(BlocState<AuthResult>.successState(data: l)),
       (r) => emit(BlocState<String>.errorState(failure: r)),
     );
   }
 
   Future<void> updateUsername(String username) async {
     emit(BlocState.loadingState());
-    var either = await sl<BaseAuthRepository>().updateUsername(username);
+    var either = await _authRepo.updateUsername(username);
     either.fold(
       (l) => emit(BlocState<String>.successState(data: l)),
       (r) => emit(BlocState<String>.errorState(failure: r)),
@@ -77,7 +79,7 @@ class AuthCubit extends Cubit<BlocState> {
   /// sign out
   Future<void> signOut() async {
     emit(BlocState.loadingState());
-    await sl<BaseAuthRepository>().signOut();
+    await _authRepo.signOut();
     emit(BlocState<String>.successState(data: AppRouter.userAuthRoute));
   }
 }

@@ -17,7 +17,6 @@ final class AuthResult {
   final String? photoUrl;
 
   factory AuthResult.create({
-    required String uid,
     String? email,
     String? phoneNumber,
     String? firstName,
@@ -25,7 +24,7 @@ final class AuthResult {
     String? photoUrl,
   }) =>
       AuthResult._(
-        uid: uid,
+        uid: '',
         email: email,
         phoneNumber: phoneNumber,
         firstName: firstName,

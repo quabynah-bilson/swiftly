@@ -62,7 +62,6 @@ final class FirebaseAuthRepository implements BaseAuthRepository {
       }
 
       var result = AuthResult.create(
-        uid: user.uid,
         firstName: firstName,
         lastName: lastName,
         email: user.email,
@@ -106,7 +105,6 @@ final class FirebaseAuthRepository implements BaseAuthRepository {
       }
 
       var result = AuthResult.create(
-        uid: user.uid,
         firstName: firstName,
         lastName: lastName,
         email: user.email,
@@ -145,8 +143,25 @@ final class FirebaseAuthRepository implements BaseAuthRepository {
         if (user == null) return right(tr('errors.auth_error_message'));
 
         await _persistentStorage.saveUserId(user.uid);
-        response.add(PhoneAuthResponseVerificationCompleted(
-            _firebaseAuth.currentUser?.displayName));
+
+        String firstName = '', lastName = '';
+        if (user.displayName != null) {
+          var names = user.displayName!.split(' ');
+          firstName = names[0];
+          if (names.length > 1) {
+            lastName = names[1];
+          }
+        }
+
+        var result = AuthResult.create(
+          firstName: firstName,
+          lastName: lastName,
+          email: user.email,
+          photoUrl: user.photoURL,
+          phoneNumber: user.phoneNumber,
+        );
+
+        response.add(PhoneAuthResponseVerificationCompleted(result));
       }
 
       // handles the code sent to the user's phone
@@ -192,7 +207,7 @@ final class FirebaseAuthRepository implements BaseAuthRepository {
   }
 
   @override
-  Future<Either<bool, String>> verifyPhoneNumber({
+  Future<Either<AuthResult, String>> verifyPhoneNumber({
     required String verificationId,
     required String otp,
   }) async {
@@ -204,7 +219,26 @@ final class FirebaseAuthRepository implements BaseAuthRepository {
       if (user == null) return right(tr('errors.auth_error_message'));
 
       await _persistentStorage.saveUserId(user.uid);
-      return left(user.displayName.isNullOrEmpty());
+
+      String firstName = '', lastName = '';
+      if (user.displayName != null) {
+        var names = user.displayName!.split(' ');
+        firstName = names[0];
+        if (names.length > 1) {
+          lastName = names[1];
+        }
+      }
+
+      var result = AuthResult.create(
+        firstName: firstName,
+        lastName: lastName,
+        email: user.email,
+        photoUrl: user.photoURL,
+        phoneNumber: user.phoneNumber,
+      );
+
+
+      return left(result);
     } on FirebaseAuthException catch (e) {
       logger.e(e.message);
       if (e.code == 'invalid-verification-code') {

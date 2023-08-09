@@ -9,7 +9,7 @@ abstract interface class BaseAuthRepository {
 
   Future<Either<AuthResult, String>> signInWithGoogle();
 
-  Future<Either<bool, String>> verifyPhoneNumber(
+  Future<Either<AuthResult, String>> verifyPhoneNumber(
       {required String verificationId, required String otp});
 
   Future<Either<String, String>> updateUsername(String username);

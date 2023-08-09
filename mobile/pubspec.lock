@@ -818,10 +818,10 @@ packages:
     dependency: "direct dev"
     description:
       name: injectable_generator
-      sha256: "4fe3db041b680098ce3af40b680734906e955a0ce89170d3993626d48d27b2f3"
+      sha256: "52dc0769606e1c64ed7676e6a3af25ec17a4bfddd7a9cc29d5556e73be5c5a0c"
       url: "https://pub.dev"
     source: hosted
-    version: "2.1.6"
+    version: "2.3.0"
   intercom_flutter:
     dependency: "direct main"
     description:
@@ -1243,10 +1243,10 @@ packages:
     description:
       path: "."
       ref: HEAD
-      resolved-ref: f24b4bdc1ccdb9a486cad0314ecdab9694cf4fa3
+      resolved-ref: "3f1bd26404adf4cb86f0ea9be748354afdb23fea"
       url: "git://github.com/quabynah-bilson/shared_utils.git"
     source: git
-    version: "0.1.0-alpha.20"
+    version: "0.1.0-alpha.21"
   shelf:
     dependency: transitive
     description:

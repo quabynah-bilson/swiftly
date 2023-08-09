@@ -16,9 +16,11 @@ import 'package:get_it/get_it.dart' as _i1;
 import 'package:google_sign_in/google_sign_in.dart' as _i8;
 import 'package:hive_flutter/hive_flutter.dart' as _i3;
 import 'package:injectable/injectable.dart' as _i2;
-import 'package:mobile/core/di/modules.dart' as _i19;
+import 'package:mobile/core/di/modules.dart' as _i20;
 import 'package:mobile/features/auth/data/repositories/auth.dart' as _i15;
 import 'package:mobile/features/auth/domain/repositories/auth.dart' as _i14;
+import 'package:mobile/features/auth/presentation/manager/auth_cubit.dart'
+    as _i19;
 import 'package:mobile/features/common/data/data_sources/local/local.dart'
     as _i12;
 import 'package:mobile/features/common/data/data_sources/remote/remote.dart'
@@ -86,12 +88,14 @@ extension GetItInjectableX on _i1.GetIt {
     ));
     gh.factory<_i18.UserCubit>(
         () => _i18.UserCubit(gh<_i16.BaseUserRepository>()));
+    gh.factory<_i19.AuthCubit>(
+        () => _i19.AuthCubit(gh<_i14.BaseAuthRepository>()));
     return this;
   }
 }
 
-class _$SecureStorageModule extends _i19.SecureStorageModule {}
+class _$SecureStorageModule extends _i20.SecureStorageModule {}
 
-class _$FirebaseModule extends _i19.FirebaseModule {}
+class _$FirebaseModule extends _i20.FirebaseModule {}
 
-class _$HiveModule extends _i19.HiveModule {}
+class _$HiveModule extends _i20.HiveModule {}

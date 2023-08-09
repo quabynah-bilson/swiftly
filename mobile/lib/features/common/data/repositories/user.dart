@@ -44,7 +44,7 @@ final class UserRepository implements BaseUserRepository {
     }
 
     // validate phone number
-    if (_validatePhoneNumber(phoneNumber)) {
+    if (!_validatePhoneNumber(phoneNumber)) {
       return right(tr('errors.invalid_phone_number'));
     }
 
@@ -105,8 +105,8 @@ final class UserRepository implements BaseUserRepository {
   }
 
   bool _validatePhoneNumber(String phoneNumber) {
-    var pattern = r'(^(?:[+0]9)?[0-9]{10,12}$)';
+    var pattern = r'^(\+?\d{1,3})? ?(\d{2,3}){1,3} ?\d{4,5}$';
     var regExp = RegExp(pattern);
-    return !regExp.hasMatch(phoneNumber);
+    return regExp.hasMatch(phoneNumber.replaceAll(' ', ''));
   }
 }

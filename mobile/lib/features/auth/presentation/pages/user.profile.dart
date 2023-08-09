@@ -36,7 +36,7 @@ class _UserProfilePageState extends State<UserProfilePage> {
       _creditCardExpiryDateController = TextEditingController(),
       _creditCardCvvController = TextEditingController(),
       _creditCardZipCodeController = TextEditingController();
-  var _loading = false, _maxPhoneNumberLength = 10, _showEditInfo = false;
+  var _loading = false, _maxPhoneNumberLength = 16, _showEditInfo = false;
   final StreamController<UserEntity> _userStreamController =
       StreamController.broadcast(sync: false);
 
@@ -75,9 +75,11 @@ class _UserProfilePageState extends State<UserProfilePage> {
             body: StreamBuilder<UserEntity>(
               stream: _userStreamController.stream,
               builder: (context, snapshot) {
-                if (snapshot.connectionState == ConnectionState.waiting) {
-                  return const SizedBox.shrink();
-                }
+                logger.d('snapshot: $snapshot');
+                // if (snapshot.connectionState != ConnectionState.active) {
+                //   return const SizedBox.shrink();
+                // }
+
                 if (snapshot.hasData &&
                     snapshot.data != null &&
                     !_showEditInfo) {
@@ -101,7 +103,7 @@ class _UserProfilePageState extends State<UserProfilePage> {
           if (user.photoUrl.isNullOrEmpty())
             const AppLogo().animate().shimmer(duration: 850.ms)
           else
-            user.photoUrl.avatar(size: 96),
+            user.photoUrl.avatar(size: 120, circular: true),
           AnimatedColumn(
             animateType: AnimateType.slideDown,
             children: [
@@ -290,7 +292,7 @@ class _UserProfilePageState extends State<UserProfilePage> {
 
       var fullName = _fullNameController.text.trim(),
           email = _emailController.text.trim(),
-          phoneNumber = _phoneNumberController.text.trim(),
+          phoneNumber = _phoneNumberController.text.replaceAll(' ', '').trim(),
           creditCardNumber = _creditCardNumberController.text.trim(),
           creditCardExpiryDate = _creditCardExpiryDateController.text.trim(),
           creditCardCvv = _creditCardCvvController.text.trim(),
