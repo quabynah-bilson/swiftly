@@ -35,20 +35,21 @@ final class UserLocalDataSource {
     }
   }
 
-  Future<Either<Stream<UserModel>, String>> get currentUser async {
+  Future<Either<String, Stream<UserModel>>> get currentUser async {
     try {
       final id = await _storage.getUserId();
-      if (id == null) return right(tr('errors.user_not_found'));
-      final user = _box.watch(key: id);
+      if (id == null) return left(tr('errors.user_not_found'));
+      // final user = _box.watch(key: id);
       // @fixme: this is a hack to fix the issue of multiple listeners
-      // if(!_controller.hasListener) {
       //   await _controller
       //       .addStream(user.map((event) => event.deleted ? null : event.value));
-      // }
-      return left(_controller.stream);
+      // if (!_controller.hasListener) {}
+      var userModel = _box.get(id);
+      if (userModel == null) return left(tr('errors.user_not_found'));
+      return right(Stream.value(userModel));
     } catch (e) {
       logger.e(e);
-      return right(tr('errors.user_not_found'));
+      return left(tr('errors.user_not_found'));
     }
   }
 }

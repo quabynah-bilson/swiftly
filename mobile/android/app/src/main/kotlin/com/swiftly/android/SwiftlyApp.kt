@@ -1,4 +1,4 @@
-package io.qcodelabsllc.swiftly.mobile
+package com.swiftly.android
 import android.app.Application
 import io.maido.intercom.IntercomFlutterPlugin
 

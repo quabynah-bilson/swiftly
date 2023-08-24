@@ -2,6 +2,7 @@ import 'package:envied/envied.dart';
 
 part 'env.g.dart';
 
+
 // env class
 @Envied(obfuscate: true)
 abstract class Env {

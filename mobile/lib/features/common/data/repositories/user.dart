@@ -77,7 +77,7 @@ final class UserRepository implements BaseUserRepository {
   }
 
   @override
-  Future<Either<Stream<UserEntity>, String>> get currentUser async {
+  Future<Either<String, Stream<UserEntity>>> get currentUser async {
     var localData = await _local.currentUser;
     var remoteData = await _remote.currentUser;
     remoteData.fold(

@@ -314,12 +314,12 @@ class _UserProfilePageState extends State<UserProfilePage> {
   }
 
   void _updateUserInfo(UserEntity user) {
-    _phoneNumberController.text = user.phoneNumber ?? '';
-    _creditCardNumberController.text = user.creditCardNumber ?? '';
-    _creditCardExpiryDateController.text = user.creditCardExpiryDate ?? '';
-    _creditCardCvvController.text = user.creditCardCvv ?? '';
-    _creditCardZipCodeController.text = user.zipCode ?? '';
-    _fullNameController.text = user.name ?? '';
-    _emailController.text = user.email ?? '';
+    _phoneNumberController.text = user.phoneNumber;
+    _creditCardNumberController.text = user.creditCardNumber;
+    _creditCardExpiryDateController.text = user.creditCardExpiryDate;
+    _creditCardCvvController.text = user.creditCardCvv;
+    _creditCardZipCodeController.text = user.zipCode;
+    _fullNameController.text = user.name;
+    _emailController.text = user.email;
   }
 }

@@ -31,8 +31,8 @@ class AuthCubit extends Cubit<BlocState> {
     emit(BlocState.loadingState());
     var either = await _authRepo.signInWithApple();
     either.fold(
-      (l) => emit(BlocState<AuthResult>.successState(data: l)),
-      (r) => emit(BlocState<String>.errorState(failure: r)),
+      (l) => emit(BlocState<String>.errorState(failure: l)),
+      (r) => emit(BlocState<AuthResult>.successState(data: r)),
     );
   }
 
@@ -41,8 +41,8 @@ class AuthCubit extends Cubit<BlocState> {
     emit(BlocState.loadingState());
     var either = await _authRepo.signInWithGoogle();
     either.fold(
-      (l) => emit(BlocState<AuthResult>.successState(data: l)),
-      (r) => emit(BlocState<String>.errorState(failure: r)),
+      (l) => emit(BlocState<String>.errorState(failure: l)),
+      (r) => emit(BlocState<AuthResult>.successState(data: r)),
     );
   }
 
@@ -62,8 +62,8 @@ class AuthCubit extends Cubit<BlocState> {
     var either = await _authRepo.verifyPhoneNumber(
         verificationId: verificationId, otp: otp);
     either.fold(
-      (l) => emit(BlocState<AuthResult>.successState(data: l)),
-      (r) => emit(BlocState<String>.errorState(failure: r)),
+      (l) => emit(BlocState<String>.errorState(failure: l)),
+      (r) => emit(BlocState<AuthResult>.successState(data: r)),
     );
   }
 

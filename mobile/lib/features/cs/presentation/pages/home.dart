@@ -1,11 +1,14 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:heroicons/heroicons.dart';
+import 'package:intercom_flutter/intercom_flutter.dart';
 import 'package:lottie/lottie.dart';
+import 'package:mobile/core/di/injector.dart';
 import 'package:mobile/core/utils/extensions.dart';
 import 'package:mobile/features/auth/presentation/manager/auth_cubit.dart';
-import 'package:mobile/features/common/presentation/widgets/app.logo.dart';
+import 'package:mobile/features/common/domain/entities/user.dart';
+import 'package:mobile/features/common/presentation/manager/user_cubit.dart';
+import 'package:mobile/features/cs/presentation/widgets/sidebar.dart';
 import 'package:mobile/generated/assets.dart';
 import 'package:shared_utils/shared_utils.dart';
 
@@ -20,12 +23,13 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   var _loading = false;
+  final _userCubit = sl<UserCubit>();
+  Stream<UserEntity>? _userStream;
 
   @override
   void initState() {
     super.initState();
-    // start intercom messenger after a delay
-    // doAfterDelay(Intercom.instance.displayMessenger);
+    doAfterDelay(_userCubit.currentUser);
   }
 
   @override
@@ -33,51 +37,67 @@ class _HomePageState extends State<HomePage> {
         loadingAnimIsAsset: true,
         lottieAnimResource: Assets.animLoading,
         isLoading: _loading,
-        child: BlocListener(
-          bloc: context.read<AuthCubit>(),
-          listener: (context, state) {
-            if (!mounted) return;
+        child: MultiBlocListener(
+          listeners: [
+            BlocListener(
+              bloc: context.read<AuthCubit>(),
+              listener: (context, state) {
+                if (!mounted) return;
 
-            setState(() => _loading = state is LoadingState);
+                setState(() => _loading = state is LoadingState);
 
-            if (state is ErrorState) context.showMessageDialog(state.failure);
+                if (state is ErrorState) {
+                  context.showMessageDialog(state.failure);
+                }
 
-            if (state is SuccessState<String>) {
-              context.navigator
-                  .pushNamedAndRemoveUntil(state.data, (route) => false);
-            }
-          },
-          child: Scaffold(
-            appBar: AppBar(
-              title: const AppLogo(isLargeText: false),
-              centerTitle: true,
-              actions: [
-                IconButton(
-                  icon: const HeroIcon(HeroIcons.informationCircle),
-                  tooltip: context.tr('need_help'),
-                  onPressed: context.showFeatureUnderDevSheet,
-                ),
-                IconButton(
-                  icon: const HeroIcon(HeroIcons.userCircle),
-                  tooltip: context.tr('sign_out_header'),
-                  onPressed: () => context.showMessageDialog(
-                    context.tr('sign_out_desc'),
-                    animationAsset: Assets.animUserLeaving,
-                    title: context.tr('confirm_sign_out'),
-                    actionLabel: context.tr('sign_out'),
-                    onTap: context.read<AuthCubit>().signOut,
-                  ),
-                ),
-              ],
+                if (state is SuccessState<String>) {
+                  context.navigator
+                      .pushNamedAndRemoveUntil(state.data, (route) => false);
+                }
+              },
             ),
-            body: Column(
+            BlocListener(
+              bloc: _userCubit,
+              listener: (context, state) {
+                if (!mounted) return;
+
+                setState(() => _loading = state is LoadingState);
+
+                if (state is ErrorState) {
+                  context.showMessageDialog(state.failure);
+                }
+
+                if (state is SuccessState<Stream<UserEntity>>) {
+                  setState(() => _userStream = state.data);
+                }
+              },
+            ),
+          ],
+          child: Sidebar(
+            // @todo -> switch to the correct page
+            onPageSelected: (page) => context.showFeatureUnderDevSheet(),
+            child: Column(
               crossAxisAlignment: CrossAxisAlignment.center,
               mainAxisSize: MainAxisSize.min,
               children: [
-                Lottie.asset(Assets.animUnderDev, height: context.height * 0.15),
+                Lottie.asset(Assets.animUnderDev,
+                    height: context.height * 0.15),
                 EmptyContentPlaceholder(
                     title: tr('under_dev_title'),
                     subtitle: tr('under_dev_desc')),
+                StreamBuilder(
+                    stream: _userStream,
+                    builder: (context, snapshot) => snapshot.hasData
+                        ? Text(snapshot.data!.name)
+                        : const SizedBox.shrink()).vertical(12),
+                AppRoundedButton(
+                  text: 'Open Intercom',
+                  onTap: () async {
+                    // messenger will load the messages only if the user is registered in Intercom.
+                    // either identified or unidentified.
+                    await sl<Intercom>().displayMessenger();
+                  },
+                ).top(24),
               ],
             ).centered(),
           ),

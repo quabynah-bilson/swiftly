@@ -4,7 +4,7 @@ import 'package:mobile/features/common/domain/entities/user.dart';
 abstract interface class BaseUserRepository {
   const BaseUserRepository._();
 
-  Future<Either<Stream<UserEntity>, String>> get currentUser;
+  Future<Either<String, Stream<UserEntity>>> get currentUser;
 
   Future<Either<void, String>> createUser({
     required String name,

@@ -34,7 +34,7 @@ abstract class FirebaseModule {
     FirebaseMessaging.onBackgroundMessage(backgroundMessageHandler);
 
     // pass token to intercom
-    if (token != null) Intercom.instance.sendTokenToIntercom(token);
+    if (token != null) await Intercom.instance.sendTokenToIntercom(token);
 
     return messaging;
   }
@@ -55,6 +55,12 @@ abstract class HiveModule {
   @preResolve
   Future<Box<UserModel>> get userBox async =>
       await Hive.openBox<UserModel>('users');
+}
+
+@module
+abstract class MessengerModule {
+  @singleton
+  Intercom get intercom => Intercom.instance;
 }
 
 // background message handler for firebase messaging

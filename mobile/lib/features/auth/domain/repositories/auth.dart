@@ -5,11 +5,11 @@ import 'package:mobile/features/auth/domain/entities/phone.auth.response.dart';
 abstract interface class BaseAuthRepository {
   const BaseAuthRepository._();
 
-  Future<Either<AuthResult, String>> signInWithApple();
+  Future<Either<String, AuthResult>> signInWithApple();
 
-  Future<Either<AuthResult, String>> signInWithGoogle();
+  Future<Either<String, AuthResult>> signInWithGoogle();
 
-  Future<Either<AuthResult, String>> verifyPhoneNumber(
+  Future<Either<String, AuthResult>> verifyPhoneNumber(
       {required String verificationId, required String otp});
 
   Future<Either<String, String>> updateUsername(String username);

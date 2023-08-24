@@ -9,6 +9,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/foundation.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:injectable/injectable.dart';
+import 'package:intercom_flutter/intercom_flutter.dart';
 import 'package:mobile/features/auth/domain/entities/auth.result.dart';
 import 'package:mobile/features/auth/domain/entities/phone.auth.response.dart';
 import 'package:mobile/features/auth/domain/repositories/auth.dart';
@@ -21,9 +22,10 @@ final class FirebaseAuthRepository implements BaseAuthRepository {
   final FirebaseAuth _firebaseAuth;
   final GoogleSignIn _googleSignIn;
   final BasePersistentStorage _persistentStorage;
+  final Intercom _intercom;
 
-  const FirebaseAuthRepository(
-      this._firebaseAuth, this._googleSignIn, this._persistentStorage);
+  const FirebaseAuthRepository(this._firebaseAuth, this._googleSignIn,
+      this._persistentStorage, this._intercom);
 
   String get rawNonce {
     const charset =
@@ -38,7 +40,7 @@ final class FirebaseAuthRepository implements BaseAuthRepository {
   }
 
   @override
-  Future<Either<AuthResult, String>> signInWithApple() async {
+  Future<Either<String, AuthResult>> signInWithApple() async {
     try {
       final appleCredential = await SignInWithApple.getAppleIDCredential(
           scopes: AppleIDAuthorizationScopes.values);
@@ -49,7 +51,7 @@ final class FirebaseAuthRepository implements BaseAuthRepository {
       var credential =
           await _firebaseAuth.signInWithCredential(oauthCredential);
       var user = credential.user;
-      if (user == null) return right(tr('errors.auth_error_message'));
+      if (user == null) return left(tr('errors.auth_error_message'));
       await _persistentStorage.saveUserId(user.uid);
 
       String firstName = '', lastName = '';
@@ -68,30 +70,34 @@ final class FirebaseAuthRepository implements BaseAuthRepository {
         photoUrl: user.photoURL,
         phoneNumber: user.phoneNumber,
       );
-      return left(result);
+
+      // register user with intercom
+      await _registerWithIntercom(user.uid, user.email);
+
+      return right(result);
     } on FirebaseAuthException catch (e) {
       logger.e(e.message);
-      return right(tr('errors.auth_error_message'));
+      return left(tr('errors.auth_error_message'));
     } on Exception catch (e) {
       logger.e(e);
-      return right(kReleaseMode
+      return left(kReleaseMode
           ? tr('errors.auth_error_message')
           : tr('under_dev_desc'));
     }
   }
 
   @override
-  Future<Either<AuthResult, String>> signInWithGoogle() async {
+  Future<Either<String, AuthResult>> signInWithGoogle() async {
     try {
       var account = await _googleSignIn.signIn();
-      if (account == null) return right(tr('errors.auth_error_message'));
+      if (account == null) return left(tr('errors.auth_error_message'));
 
       var auth = await account.authentication;
       var credential = GoogleAuthProvider.credential(
           accessToken: auth.accessToken, idToken: auth.idToken);
       var userCredential = await _firebaseAuth.signInWithCredential(credential);
       var user = userCredential.user;
-      if (user == null) return right(tr('errors.auth_error_message'));
+      if (user == null) return left(tr('errors.auth_error_message'));
 
       await _persistentStorage.saveUserId(user.uid);
 
@@ -111,13 +117,17 @@ final class FirebaseAuthRepository implements BaseAuthRepository {
         photoUrl: user.photoURL,
         phoneNumber: user.phoneNumber,
       );
-      return left(result);
+
+      // register user with intercom
+      await _registerWithIntercom(user.uid, user.email);
+
+      return right(result);
     } on FirebaseAuthException catch (e) {
       logger.e(e.message);
-      return right(tr('errors.auth_error_message'));
+      return left(tr('errors.auth_error_message'));
     } on Exception catch (e) {
       logger.e(e);
-      return right(tr('errors.auth_error_message'));
+      return left(tr('errors.auth_error_message'));
     }
   }
 
@@ -160,6 +170,9 @@ final class FirebaseAuthRepository implements BaseAuthRepository {
           photoUrl: user.photoURL,
           phoneNumber: user.phoneNumber,
         );
+
+        // register user with intercom
+        await _registerWithIntercom(user.uid, user.email);
 
         response.add(PhoneAuthResponseVerificationCompleted(result));
       }
@@ -204,10 +217,11 @@ final class FirebaseAuthRepository implements BaseAuthRepository {
     if (account != null) await _googleSignIn.signOut();
     await _firebaseAuth.signOut();
     await _persistentStorage.clear();
+    await _intercom.logout();
   }
 
   @override
-  Future<Either<AuthResult, String>> verifyPhoneNumber({
+  Future<Either<String, AuthResult>> verifyPhoneNumber({
     required String verificationId,
     required String otp,
   }) async {
@@ -216,7 +230,7 @@ final class FirebaseAuthRepository implements BaseAuthRepository {
           verificationId: verificationId, smsCode: otp);
       var userCredential = await _firebaseAuth.signInWithCredential(credential);
       var user = userCredential.user;
-      if (user == null) return right(tr('errors.auth_error_message'));
+      if (user == null) return left(tr('errors.auth_error_message'));
 
       await _persistentStorage.saveUserId(user.uid);
 
@@ -237,18 +251,17 @@ final class FirebaseAuthRepository implements BaseAuthRepository {
         phoneNumber: user.phoneNumber,
       );
 
-
-      return left(result);
+      return right(result);
     } on FirebaseAuthException catch (e) {
       logger.e(e.message);
       if (e.code == 'invalid-verification-code') {
-        return right('The OTP you entered is incorrect. Please try again.');
+        return left('The OTP you entered is incorrect. Please try again.');
       }
 
-      return right(tr('errors.auth_error_message'));
+      return left(tr('errors.auth_error_message'));
     } on Exception catch (e) {
       logger.e(e);
-      return right(tr('errors.auth_error_message'));
+      return left(tr('errors.auth_error_message'));
     }
   }
 
@@ -264,5 +277,17 @@ final class FirebaseAuthRepository implements BaseAuthRepository {
       logger.e(e);
       return right(tr('errors.auth_error_message'));
     }
+  }
+
+  // register user with intercom
+  Future<void> _registerWithIntercom(String uid, String? email) async {
+    await _intercom.loginIdentifiedUser(
+      userId: uid,
+      // email: email,
+      statusCallback: IntercomStatusCallback(
+        onFailure: (error) => logger.e(error),
+        onSuccess: () => logger.i('Intercom user hash updated'),
+      ),
+    );
   }
 }

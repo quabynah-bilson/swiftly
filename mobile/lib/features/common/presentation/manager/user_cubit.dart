@@ -56,8 +56,8 @@ class UserCubit extends Cubit<BlocState> {
     emit(BlocState.loadingState());
     var result = await _repo.currentUser;
     result.fold(
-      (l) => emit(BlocState<Stream<UserEntity>>.successState(data: l)),
-      (r) => emit(BlocState<String>.errorState(failure: r)),
+      (l) => emit(BlocState<String>.errorState(failure: l)),
+      (r) => emit(BlocState<Stream<UserEntity>>.successState(data: r.asBroadcastStream())),
     );
   }
 }
