@@ -132,13 +132,13 @@ class _UserProfileTabState extends State<_UserProfileTab> {
       );
 
   Widget _buildAvatar(String? avatarUrl) => avatarUrl.isNullOrEmpty()
-      ? Assets.imgAppstore
+      ? Assets.imgAppLogoWhite
           .avatar(size: context.height * 0.12, circular: true, fromAsset: true)
           .centered()
       : Stack(
           clipBehavior: Clip.none,
           children: [
-            Assets.imgAppstore.avatar(
+            Assets.imgAppLogoWhite.avatar(
                 size: context.height * 0.13, circular: true, fromAsset: true),
             Positioned(
               bottom: -1,
