@@ -68,7 +68,7 @@ class _UserProfileTabState extends State<_UserProfileTab> {
       );
 
   Widget _buildCurrentUserUI(UserEntity user) => AnimatedListView(
-        padding: EdgeInsets.only(top: context.padding.top + 12),
+        padding: EdgeInsets.only(top: context.padding.top + 8),
         children: [
           _buildAvatar(user.photoUrl).bottom(24),
           AppRoundedButton(
@@ -169,6 +169,7 @@ class _UserProfileTabState extends State<_UserProfileTab> {
         child: ListTile(
           leading: Icon(icon, color: color ?? context.colorScheme.onSurface),
           title: label.bodyText2(context,
+              weight: FontWeight.w600,
               color: color ?? context.colorScheme.onSurface),
           subtitle: subtitle?.caption(context,
               emphasis: kEmphasisMedium,

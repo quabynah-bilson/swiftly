@@ -2,6 +2,7 @@
 class Assets {
   Assets._();
 
+  static const String animEmptyCart = 'assets/anim/empty_cart.json';
   static const String animError = 'assets/anim/error.json';
   static const String animLoading = 'assets/anim/loading.json';
   static const String animSuccess = 'assets/anim/success.json';

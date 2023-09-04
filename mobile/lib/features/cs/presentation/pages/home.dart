@@ -2,6 +2,7 @@ import 'package:animated_bottom_navigation_bar/animated_bottom_navigation_bar.da
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intercom_flutter/intercom_flutter.dart';
+import 'package:lottie/lottie.dart';
 import 'package:mobile/core/di/injector.dart';
 import 'package:mobile/core/routing/router.dart';
 import 'package:mobile/core/utils/extensions.dart';
@@ -11,11 +12,11 @@ import 'package:mobile/features/auth/presentation/manager/auth_cubit.dart';
 import 'package:mobile/features/common/domain/entities/user.dart';
 import 'package:mobile/features/common/presentation/manager/user_cubit.dart';
 import 'package:mobile/generated/assets.dart';
+import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:shared_utils/shared_utils.dart';
 
-part 'tabs/history.dart';
 part 'tabs/home.dart';
-part 'tabs/orders.dart';
+
 part 'tabs/user_profile.dart';
 
 /// Customer service home page.
@@ -28,12 +29,10 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  var _loading = false, _bottomNavIndex = 0;
+  var _bottomNavIndex = 0;
 
   List<IconData> get iconList => <IconData>[
         TablerIcons.home_2, // home
-        TablerIcons.history_toggle, // history
-        TablerIcons.shopping_cart, // shopping cart
         TablerIcons.user_circle, // user profile & settings
       ];
 
@@ -47,8 +46,6 @@ class _HomePageState extends State<HomePage> {
             index: _bottomNavIndex,
             children: const [
               _HomeTab(),
-              _HistoryTab(),
-              _OrdersTab(),
               _UserProfileTab(),
             ],
           ),
@@ -58,7 +55,11 @@ class _HomePageState extends State<HomePage> {
             gapLocation: loggedIn ? GapLocation.center : GapLocation.none,
             gapWidth: 40,
             notchSmoothness: NotchSmoothness.smoothEdge,
-            onTap: (index) => setState(() => _bottomNavIndex = index),
+            onTap: (index) {
+              context.withDefaultOverlays(
+                  statusBarBrightness: context.theme.brightness);
+              setState(() => _bottomNavIndex = index);
+            },
             backgroundColor: context.colorScheme.onSecondary,
             activeColor: context.colorScheme.secondary,
             inactiveColor:
@@ -66,14 +67,16 @@ class _HomePageState extends State<HomePage> {
           ),
           floatingActionButtonLocation:
               FloatingActionButtonLocation.centerDocked,
-          floatingActionButton: loggedIn ? FloatingActionButton(
-            backgroundColor: context.colorScheme.secondary,
-            foregroundColor: context.colorScheme.onSecondary,
-            child: const Icon(TablerIcons.message_2_question),
-            onPressed: () async {
-              await sl<Intercom>().displayMessenger();
-            },
-          ) : null,
+          floatingActionButton: loggedIn
+              ? FloatingActionButton(
+                  backgroundColor: context.colorScheme.secondary,
+                  foregroundColor: context.colorScheme.onSecondary,
+                  child: const Icon(TablerIcons.message_2_question),
+                  onPressed: () async {
+                    await sl<Intercom>().displayMessenger();
+                  },
+                )
+              : null,
         );
       });
 }
