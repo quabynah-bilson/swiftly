@@ -134,8 +134,8 @@ ColorScheme useColorScheme([ThemeMode mode = ThemeMode.light]) =>
         ? ColorScheme.light(
             background: Colors.white,
             onBackground: Colors.black,
-            secondary: const Color(0xff17134F),
-            onSecondary: Colors.white,
+            secondary: const Color(0xffF9C92B),
+            onSecondary: Colors.black,
             secondaryContainer: const Color(0xff17134F),
             onSecondaryContainer: Colors.white,
             primary: const Color(0xff17134F),

@@ -17,6 +17,8 @@ class AuthCubit extends Cubit<BlocState> {
   @factoryMethod
   AuthCubit(this._authRepo) : super(BlocState.initialState());
 
+  Future<bool> get isSignedIn async => await _authRepo.isSignedIn;
+
   /// check if user is authenticated
   Future<void> checkAuthState() async {
     emit(BlocState.loadingState());

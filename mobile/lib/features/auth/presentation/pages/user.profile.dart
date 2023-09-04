@@ -72,6 +72,8 @@ class _UserProfilePageState extends State<UserProfilePage> {
             }
           },
           child: Scaffold(
+            appBar: AppBar(),
+            extendBodyBehindAppBar: true,
             body: StreamBuilder<UserEntity>(
               stream: _userStreamController.stream,
               builder: (context, snapshot) {

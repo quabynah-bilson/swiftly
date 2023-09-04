@@ -72,7 +72,7 @@ final class FirebaseAuthRepository implements BaseAuthRepository {
       );
 
       // register user with intercom
-      await _registerWithIntercom(user.uid, user.email);
+      await _registerWithIntercom(user);
 
       return right(result);
     } on FirebaseAuthException catch (e) {
@@ -119,7 +119,7 @@ final class FirebaseAuthRepository implements BaseAuthRepository {
       );
 
       // register user with intercom
-      await _registerWithIntercom(user.uid, user.email);
+      await _registerWithIntercom(user);
 
       return right(result);
     } on FirebaseAuthException catch (e) {
@@ -172,7 +172,7 @@ final class FirebaseAuthRepository implements BaseAuthRepository {
         );
 
         // register user with intercom
-        await _registerWithIntercom(user.uid, user.email);
+        await _registerWithIntercom(user);
 
         response.add(PhoneAuthResponseVerificationCompleted(result));
       }
@@ -279,11 +279,14 @@ final class FirebaseAuthRepository implements BaseAuthRepository {
     }
   }
 
+  @override
+  Future<bool> get isSignedIn async => _firebaseAuth.currentUser != null;
+
   // register user with intercom
-  Future<void> _registerWithIntercom(String uid, String? email) async {
+  Future<void> _registerWithIntercom(User user) async {
     await _intercom.loginIdentifiedUser(
-      userId: uid,
-      // email: email,
+      // userId: user.email ?? user.uid,
+      email: user.displayName ?? user.email ?? user.phoneNumber ?? user.uid,
       statusCallback: IntercomStatusCallback(
         onFailure: (error) => logger.e(error),
         onSuccess: () => logger.i('Intercom user hash updated'),

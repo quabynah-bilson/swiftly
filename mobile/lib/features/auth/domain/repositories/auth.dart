@@ -18,4 +18,6 @@ abstract interface class BaseAuthRepository {
       [String? countryCode]);
 
   Future<void> signOut();
+
+  Future<bool> get isSignedIn;
 }
