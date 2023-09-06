@@ -53,8 +53,9 @@
   "phone_number_required": "Phone number is required",
   "email_required": "Email is required",
   "password_required": "Password is required",
-  "welcome_back" : "Welcome back,",
-  "edit_info" : "Update my profile information",
+  "welcome_back": "Welcome back,",
+  "edit_info": "Update my profile information",
+  "profile_sign_in_message": "Are you a new user? Please sign in to enjoy all the features of our app.",
   "errors": {
     "user_not_found": "User not found",
     "auth_error_message": "There was an error authenticating you. Please try again later.",
@@ -65,6 +66,6 @@
     "invalid_credit_card_expiry_date": "Invalid expiry date",
     "invalid_credit_card_number": "Invalid credit card number",
     "invalid_credit_card_cvv": "Invalid CVV",
-    "invalid_phone_number" : "The phone number is badly formatted. Please check and try again"
+    "invalid_phone_number": "The phone number is badly formatted. Please check and try again"
   }
 }

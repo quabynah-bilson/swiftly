@@ -60,10 +60,26 @@ class _UserProfileTabState extends State<_UserProfileTab> {
             ),
           ],
           child: StreamBuilder(
-              stream: _userStream,
-              builder: (context, snapshot) => snapshot.hasData
-                  ? _buildCurrentUserUI(snapshot.data as UserEntity)
-                  : const SizedBox.shrink()),
+            stream: _userStream,
+            builder: (context, snapshot) => snapshot.hasData
+                ? _buildCurrentUserUI(snapshot.data as UserEntity)
+                : AnimatedColumn(
+                    children: [
+                      Assets.imgAppLogo
+                          .asAssetImage(height: context.height * 0.05)
+                          .bottom(40),
+                      tr('profile_sign_in_message')
+                          .bodyText1(context, alignment: TextAlign.center)
+                          .bottom(16),
+                      AppRoundedButton(
+                        text: tr('get_started'),
+                        layoutSize: LayoutSize.standard,
+                        onTap: () => context.navigator.pushNamedAndRemoveUntil(
+                            AppRouter.userAuthRoute, (route) => false),
+                      ),
+                    ],
+                  ).horizontal(24).centered(),
+          ),
         ).vertical(12),
       );
 
@@ -132,14 +148,14 @@ class _UserProfileTabState extends State<_UserProfileTab> {
       );
 
   Widget _buildAvatar(String? avatarUrl) => avatarUrl.isNullOrEmpty()
-      ? Assets.imgAppLogoWhite
-          .avatar(size: context.height * 0.12, circular: true, fromAsset: true)
+      ? Assets.imgAppstore
+          .avatar(size: context.height * 0.11, circular: true, fromAsset: true)
           .centered()
       : Stack(
           clipBehavior: Clip.none,
           children: [
-            Assets.imgAppLogoWhite.avatar(
-                size: context.height * 0.13, circular: true, fromAsset: true),
+            Assets.imgAppstore.avatar(
+                size: context.height * 0.11, circular: true, fromAsset: true),
             Positioned(
               bottom: -1,
               right: -8,
@@ -149,7 +165,8 @@ class _UserProfileTabState extends State<_UserProfileTab> {
                     border: Border.all(
                         color: context.colorScheme.background, width: 4),
                   ),
-                  child: avatarUrl.avatar(size: 64, circular: true)),
+                  child: avatarUrl.avatar(
+                      size: context.height * 0.06, circular: true)),
             ),
           ],
         ).centered();

@@ -1,5 +1,6 @@
 import 'package:dartz/dartz.dart';
 import 'package:easy_localization/easy_localization.dart';
+import 'package:flutter/foundation.dart';
 import 'package:injectable/injectable.dart';
 import 'package:mobile/core/utils/extensions.dart';
 import 'package:mobile/features/common/data/data_sources/local/local.dart';
@@ -83,7 +84,21 @@ final class UserRepository implements BaseUserRepository {
     remoteData.fold(
         (l) => l.listen((user) => _local.saveUser(user.fromEntity())),
         (r) => null);
-    return localData;
+    return kReleaseMode
+        ? localData
+        : right(
+            Stream.value(
+              UserEntity(
+                id: (await _persistentStorage.getUserId())!,
+                name: 'John Doe',
+                email: 'john@swiftly.com',
+                photoUrl:
+                    'https://images.unsplash.com/photo-1531384441138-2736e62e0919?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTJ8fGhhbmRzb21lJTIwYmxhY2slMjBtYW58ZW58MHx8MHx8fDA%3D&auto=format&fit=crop&w=800&q=40',
+                phoneNumber: '+44 2342 567690',
+                creditCardNumber: '1234 5678 9012 3456',
+              ),
+            ),
+          );
   }
 
   @override
