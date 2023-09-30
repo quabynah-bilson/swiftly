@@ -1,0 +1,20 @@
+[
+  {
+    "name": "Ghana",
+    "code": "GH",
+    "dial_code": "+233",
+    "flag": "https://www.countryflags.com/wp-content/uploads/ghana-flag-png-large.png"
+  },
+  {
+    "name": "United States",
+    "code": "US",
+    "dial_code": "+1",
+    "flag": "https://www.countryflags.com/wp-content/uploads/united-states-of-america-flag-png-large.png"
+  },
+  {
+    "name": "United Kingdom",
+    "code": "GB",
+    "dial_code": "+44",
+    "flag": "https://www.countryflags.com/wp-content/uploads/united-kingdom-flag-png-large.png"
+  }
+]

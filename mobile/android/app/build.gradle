@@ -56,7 +56,7 @@ android {
         applicationId "com.swiftly.android"
         minSdkVersion 23
         targetSdkVersion flutter.targetSdkVersion
-        versionCode flutterVersionCode.toInteger()
+        versionCode 4 // flutterVersionCode.toInteger()
         versionName flutterVersionName
     }
 

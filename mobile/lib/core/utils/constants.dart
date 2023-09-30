@@ -5,3 +5,9 @@ const kDurationMedium = Duration(milliseconds: 350);
 const kDurationSlow = Duration(milliseconds: 500);
 const kDurationVerySlow = Duration(milliseconds: 800);
 const kDurationFakeLoading = Duration(milliseconds: 2000);
+
+// default values
+const kDefaultDialCode = '+1'; // default country code (US)
+
+const kMinimumPhoneNumberLength = 10;
+const kMaximumPhoneNumberLength = 13;

@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dartz/dartz.dart';
 import 'package:easy_localization/easy_localization.dart';
@@ -17,27 +19,26 @@ final class UserRemoteDataSource {
 
   const UserRemoteDataSource(this._db, this._storage, this._auth);
 
-  Future<Either<Stream<UserModel>, String>> get currentUser async {
+  Future<Either<String, Stream<UserModel>>> get currentUser async {
     try {
       final id = await _storage.getUserId();
-      if (id == null) return right(tr('errors.user_not_found'));
+      if (id == null) return left(tr('errors.user_not_found'));
       final snapshot = _db.collection(_kUserCollectionName).doc(id).snapshots();
-      return left(snapshot.map((event) {
+      return right(snapshot.map((event) {
         if (!event.exists) throw Exception(tr('errors.user_not_found'));
         return UserModel.fromJson(event.data()!);
       }));
     } on FirebaseException catch (e) {
       logger.e(e);
     }
-    return right(tr('errors.error_occurred'));
+    return left(tr('errors.error_occurred'));
   }
 
   Future<void> createUser(UserModel user) async {
     try {
-      await _auth.currentUser?.updateDisplayName(user.name);
-      await _auth.currentUser?.updatePhotoURL(user.photoUrl);
-      await _auth.currentUser?.updateEmail(user.email);
-      // await _auth.currentUser?.updatePhoneNumber(user.phoneNumber);
+      unawaited(_auth.currentUser?.updateDisplayName(user.name));
+      unawaited(_auth.currentUser?.updatePhotoURL(user.photoUrl));
+      await _auth.currentUser?.verifyBeforeUpdateEmail(user.email);
       await _auth.currentUser?.reload();
 
       await _db

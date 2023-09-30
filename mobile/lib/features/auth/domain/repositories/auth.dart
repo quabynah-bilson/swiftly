@@ -1,5 +1,7 @@
+import 'package:api_utils/api_utils.dart';
 import 'package:dartz/dartz.dart';
 import 'package:mobile/features/auth/domain/entities/auth.result.dart';
+import 'package:mobile/features/auth/domain/entities/country.dart';
 import 'package:mobile/features/auth/domain/entities/phone.auth.response.dart';
 
 abstract interface class BaseAuthRepository {
@@ -20,4 +22,6 @@ abstract interface class BaseAuthRepository {
   Future<void> signOut();
 
   Future<bool> get isSignedIn;
+
+  FutureEither<String, List<Country>> get countries;
 }

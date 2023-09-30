@@ -4,6 +4,7 @@ import 'package:mobile/core/di/injector.dart';
 import 'package:mobile/core/routing/router.dart';
 import 'package:mobile/core/utils/constants.dart';
 import 'package:mobile/features/auth/domain/entities/auth.result.dart';
+import 'package:mobile/features/auth/domain/entities/country.dart';
 import 'package:mobile/features/auth/domain/entities/phone.auth.response.dart';
 import 'package:mobile/features/auth/domain/repositories/auth.dart';
 import 'package:mobile/features/common/domain/repositories/persistent.storage.dart';
@@ -49,13 +50,18 @@ class AuthCubit extends Cubit<BlocState> {
   }
 
   /// sign in with phone number
-  Future<void> signInWithPhoneNumber(String phoneNumber) async {
+  Future<void> signInWithPhoneNumber({
+    required String phoneNumber,
+    String? dialCode,
+  }) async {
     emit(BlocState.loadingState());
-    var stream = await _authRepo.signInWithPhoneNumber(phoneNumber);
+    var stream =
+        await _authRepo.signInWithPhoneNumber(phoneNumber, dialCode);
     stream.listen((event) =>
         emit(BlocState<PhoneAuthResponse>.successState(data: event)));
   }
 
+  /// verify otp for phone number
   Future<void> verifyOTPForPhoneNumber({
     required String verificationId,
     required String otp,
@@ -69,6 +75,7 @@ class AuthCubit extends Cubit<BlocState> {
     );
   }
 
+  /// update current user's username
   Future<void> updateUsername(String username) async {
     emit(BlocState.loadingState());
     var either = await _authRepo.updateUsername(username);
@@ -83,5 +90,14 @@ class AuthCubit extends Cubit<BlocState> {
     emit(BlocState.loadingState());
     await _authRepo.signOut();
     emit(BlocState<String>.successState(data: AppRouter.userAuthRoute));
+  }
+
+  Future<void> getCountries() async {
+    emit(BlocState.loadingState());
+    var either = await _authRepo.countries;
+    either.fold(
+      (l) => emit(BlocState<String>.errorState(failure: l)),
+      (r) => emit(BlocState<List<Country>>.successState(data: r)),
+    );
   }
 }

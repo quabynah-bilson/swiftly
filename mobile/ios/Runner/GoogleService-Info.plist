@@ -3,23 +3,21 @@
 <plist version="1.0">
 <dict>
 	<key>CLIENT_ID</key>
-	<string>530372023150-ql99f70s1flvhenli4714srso3tvg4p6.apps.googleusercontent.com</string>
+	<string>479771909152-n0gssmfktgqc771f49sd1nq5arjm2sc7.apps.googleusercontent.com</string>
 	<key>REVERSED_CLIENT_ID</key>
-	<string>com.googleusercontent.apps.530372023150-ql99f70s1flvhenli4714srso3tvg4p6</string>
-	<key>ANDROID_CLIENT_ID</key>
-	<string>530372023150-h9c64nhe3ltchpm7vrd33ckljmok8mu8.apps.googleusercontent.com</string>
+	<string>com.googleusercontent.apps.479771909152-n0gssmfktgqc771f49sd1nq5arjm2sc7</string>
 	<key>API_KEY</key>
-	<string>AIzaSyBP0UjKfVkbHf-JlFKpYaVRdpXXM3Xug8g</string>
+	<string>AIzaSyC42zXoVyNpJ7KlPdj1JkjqRWnQWvmgMmk</string>
 	<key>GCM_SENDER_ID</key>
-	<string>530372023150</string>
+	<string>479771909152</string>
 	<key>PLIST_VERSION</key>
 	<string>1</string>
 	<key>BUNDLE_ID</key>
 	<string>com.swiftly.ios</string>
 	<key>PROJECT_ID</key>
-	<string>swiftly-by-qcodelabsllc</string>
+	<string>swiftly-team</string>
 	<key>STORAGE_BUCKET</key>
-	<string>swiftly-by-qcodelabsllc.appspot.com</string>
+	<string>swiftly-team.appspot.com</string>
 	<key>IS_ADS_ENABLED</key>
 	<false></false>
 	<key>IS_ANALYTICS_ENABLED</key>
@@ -31,6 +29,6 @@
 	<key>IS_SIGNIN_ENABLED</key>
 	<true></true>
 	<key>GOOGLE_APP_ID</key>
-	<string>1:530372023150:ios:4b5d27f819a85ca2c4677f</string>
+	<string>1:479771909152:ios:43a476c1b4c4d929dbf045</string>
 </dict>
 </plist>

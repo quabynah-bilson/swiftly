@@ -47,6 +47,7 @@ extension BuildContextX on BuildContext {
     String? actionLabel,
     String? animationAsset,
     VoidCallback? onTap,
+    IconData? icon,
   }) async {
     if (showAsError) {
       await showBarModalBottomSheet(
@@ -66,9 +67,23 @@ extension BuildContextX on BuildContext {
                     height: height * 0.1,
                     width: width * 0.7)
                 .bottom(24),
-            EmptyContentPlaceholder(
-                title: title ?? context.tr('errors.auth_error_title'),
-                subtitle: message),
+            AnimatedColumn(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                if (icon != null) ...{
+                  Icon(icon, size: 48, color: context.colorScheme.primary)
+                      .bottom(16),
+                },
+                (title ?? context.tr('errors.auth_error_title'))
+                    .h6(context,
+                        color: context.colorScheme.primary,
+                        alignment: TextAlign.center)
+                    .bottom(8),
+                message.subtitle2(context,
+                    alignment: TextAlign.center, emphasis: kEmphasisMedium),
+              ],
+            ).horizontal(context.width * 0.1).centered(),
             SafeArea(
               top: false,
               child: AppRoundedButton(
@@ -101,8 +116,23 @@ extension BuildContextX on BuildContext {
                     height: height * 0.1,
                     width: width * 0.7)
                 .bottom(24),
-            EmptyContentPlaceholder(
-                title: title ?? 'Successful', subtitle: message),
+            AnimatedColumn(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                if (icon != null) ...{
+                  Icon(icon, size: 48, color: context.colorScheme.primary)
+                      .bottom(16),
+                },
+                (title ?? 'Successful')
+                    .h6(context,
+                        color: context.colorScheme.primary,
+                        alignment: TextAlign.center)
+                    .bottom(8),
+                message.subtitle2(context,
+                    alignment: TextAlign.center, emphasis: kEmphasisMedium),
+              ],
+            ).horizontal(context.width * 0.1).centered(),
             SafeArea(
               top: false,
               child: AppRoundedButton(
@@ -135,11 +165,12 @@ extension ScrollX on ScrollController {
       });
 }
 
-extension StringX on String {
-  bool get isNumeric => num.tryParse(this) != null;
+extension StringX on String? {
+  bool get isNumeric => this != null && num.tryParse(this!) != null;
 
   bool get isCreditCard {
-    var updatedValue = trim().replaceAll(' ', '');
+    if (this == null) return false;
+    var updatedValue = this!.trim().replaceAll(' ', '');
     return updatedValue.length == 16 && updatedValue.isNumeric;
   }
 }

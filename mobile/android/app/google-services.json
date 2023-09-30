@@ -1,48 +1,40 @@
 {
   "project_info": {
-    "project_number": "530372023150",
-    "project_id": "swiftly-by-qcodelabsllc",
-    "storage_bucket": "swiftly-by-qcodelabsllc.appspot.com"
+    "project_number": "479771909152",
+    "project_id": "swiftly-team",
+    "storage_bucket": "swiftly-team.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:530372023150:android:620aa8c083dfad0fc4677f",
+        "mobilesdk_app_id": "1:479771909152:android:69671d79ae01b1b3dbf045",
         "android_client_info": {
           "package_name": "com.swiftly.android"
         }
       },
       "oauth_client": [
         {
-          "client_id": "530372023150-keqctvhelvl80hhl5l19ia1b2f9kl4ou.apps.googleusercontent.com",
-          "client_type": 1,
-          "android_info": {
-            "package_name": "com.swiftly.android",
-            "certificate_hash": "34da2328406665eb7d4d53d271113bf3558b1af0"
-          }
-        },
-        {
-          "client_id": "530372023150-qjvmp6k7s27l4bgp873v1hdjmqp1nv62.apps.googleusercontent.com",
+          "client_id": "479771909152-nni5pgq221b3hmm5te3lffm20b3rr96g.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyAcvoFN1aEjWsgIZISlEFHYAuRIrs-8_YY"
+          "current_key": "AIzaSyB4E2rgFjmsBY1J50m4hLuh8dds60H44nA"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "530372023150-ps2qo1d6bm47502801to9gvqp1umhglp.apps.googleusercontent.com",
+              "client_id": "479771909152-nni5pgq221b3hmm5te3lffm20b3rr96g.apps.googleusercontent.com",
               "client_type": 3
             },
             {
-              "client_id": "530372023150-0j03j6u419h8gi6jdd3pc4tr6juv3fik.apps.googleusercontent.com",
+              "client_id": "479771909152-n0gssmfktgqc771f49sd1nq5arjm2sc7.apps.googleusercontent.com",
               "client_type": 2,
               "ios_info": {
-                "bundle_id": "com.swiftly.mobile"
+                "bundle_id": "com.swiftly.ios"
               }
             }
           ]

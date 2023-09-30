@@ -6,11 +6,15 @@ import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:mobile/core/di/injector.dart';
 import 'package:mobile/core/routing/router.dart';
+import 'package:mobile/core/utils/constants.dart';
 import 'package:mobile/core/utils/extensions.dart';
+import 'package:mobile/core/utils/formatters.dart';
 import 'package:mobile/features/auth/domain/entities/auth.result.dart';
+import 'package:mobile/features/auth/domain/entities/country.dart';
 import 'package:mobile/features/common/domain/entities/user.dart';
 import 'package:mobile/features/common/presentation/manager/user_cubit.dart';
 import 'package:mobile/features/common/presentation/widgets/app.logo.dart';
+import 'package:mobile/features/common/presentation/widgets/country.picker.dart';
 import 'package:mobile/generated/assets.dart';
 import 'package:shared_utils/shared_utils.dart';
 
@@ -31,14 +35,16 @@ class _UserProfilePageState extends State<UserProfilePage> {
       _emailController = TextEditingController(text: widget.authResult.email),
       _passwordController = TextEditingController(),
       _phoneNumberController =
-          TextEditingController(text: widget.authResult.phoneNumber),
-      _creditCardNumberController = TextEditingController(),
-      _creditCardExpiryDateController = TextEditingController(),
-      _creditCardCvvController = TextEditingController(),
-      _creditCardZipCodeController = TextEditingController();
-  var _loading = false, _maxPhoneNumberLength = 16, _showEditInfo = false;
+          TextEditingController(text: widget.authResult.phoneNumber);
+
+  // _creditCardNumberController = TextEditingController(),
+  // _creditCardExpiryDateController = TextEditingController(),
+  // _creditCardCvvController = TextEditingController(),
+  // _creditCardZipCodeController = TextEditingController();
+  var _loading = false, _maxPhoneNumberLength = 13, _showEditInfo = false;
   final StreamController<UserEntity> _userStreamController =
       StreamController.broadcast(sync: false);
+  Country? _selectedCountry;
 
   @override
   void initState() {
@@ -58,6 +64,7 @@ class _UserProfilePageState extends State<UserProfilePage> {
             setState(() => _loading = state is LoadingState);
 
             if (state is ErrorState<String>) {
+              if (state.failure == tr('errors.user_not_found')) return;
               context.showMessageDialog(state.failure);
             }
 
@@ -77,11 +84,6 @@ class _UserProfilePageState extends State<UserProfilePage> {
             body: StreamBuilder<UserEntity>(
               stream: _userStreamController.stream,
               builder: (context, snapshot) {
-                logger.d('snapshot: $snapshot');
-                // if (snapshot.connectionState != ConnectionState.active) {
-                //   return const SizedBox.shrink();
-                // }
-
                 if (snapshot.hasData &&
                     snapshot.data != null &&
                     !_showEditInfo) {
@@ -186,26 +188,36 @@ class _UserProfilePageState extends State<UserProfilePage> {
                         verticalPadding: 20,
                         validator: (value) =>
                             value!.isEmpty ? tr('email_required') : null),
-                    FilledTextField(tr('password_label'),
-                        controller: _passwordController,
-                        type: AppTextFieldType.password,
-                        enabled: !_loading,
-                        verticalPadding: 20,
-                        validator: (value) =>
-                            value!.isEmpty ? tr('password_required') : null),
+                    if (!widget.authResult.phoneNumber.isNullOrEmpty() &&
+                        widget.authResult.email.isNullOrEmpty())
+                      FilledTextField(tr('password_label'),
+                          controller: _passwordController,
+                          type: AppTextFieldType.password,
+                          enabled: !_loading,
+                          verticalPadding: 20,
+                          validator: (value) =>
+                              value!.isEmpty ? tr('password_required') : null),
                     const Divider().bottom(20),
                     FilledTextField(tr('phone_number_label'),
                         controller: _phoneNumberController,
-                        type: AppTextFieldType.phone,
-                        hint: "+000 000 000 000",
+                        keyboardType: TextInputType.phone,
+                        hint: tr('phone_number_hint'),
                         enabled:
                             widget.authResult.phoneNumber.isNullOrEmpty() &&
                                 !_loading,
                         verticalPadding: 20,
+                        prefix: CountryPickerPrefix(
+                            onSelected: (country) =>
+                                setState(() => _selectedCountry = country),
+                            country: _selectedCountry),
+                        onTap: _pickCountry,
+                        readOnly: _selectedCountry == null,
                         maxLength: _maxPhoneNumberLength,
                         onChanged: (value) {
                           setState(() => _maxPhoneNumberLength =
-                              value.startsWith('0') ? 13 : 16);
+                              value.startsWith('0')
+                                  ? kMaximumPhoneNumberLength
+                                  : kMinimumPhoneNumberLength);
 
                           if (value.length == _maxPhoneNumberLength) {
                             FocusScope.of(context).unfocus();
@@ -214,67 +226,68 @@ class _UserProfilePageState extends State<UserProfilePage> {
                         validator: (value) => value!.isEmpty
                             ? tr('phone_number_required')
                             : null),
-                    Row(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        Expanded(
-                          flex: 2,
-                          child: FilledTextField(tr('credit_card_number_label'),
-                              hint: "XXXX XXXX XXXX XXXX",
-                              controller: _creditCardNumberController,
-                              type: AppTextFieldType.creditCardNumber,
-                              enabled: !_loading,
-                              verticalPadding: 20,
-                              validator: (value) => value!.isEmpty
-                                  ? tr('credit_card_number_required')
-                                  : null),
-                        ),
-                        const SizedBox(width: 12),
-                        Expanded(
-                          child: FilledTextField(
-                              tr('credit_card_expiry_date_label'),
-                              hint: "MM/YY",
-                              controller: _creditCardExpiryDateController,
-                              type: AppTextFieldType.creditCardExpiry,
-                              enabled: !_loading,
-                              verticalPadding: 20,
-                              validator: (value) => value!.isEmpty
-                                  ? tr('credit_card_expiry_date_required')
-                                  : null),
-                        ),
-                      ],
-                    ),
-                    Row(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        Expanded(
-                          flex: 2,
-                          child: FilledTextField(tr('credit_card_cvv_label'),
-                              hint: "XXX",
-                              controller: _creditCardCvvController,
-                              type: AppTextFieldType.creditCardCvv,
-                              enabled: !_loading,
-                              verticalPadding: 20,
-                              validator: (value) => value!.isEmpty
-                                  ? tr('credit_card_cvv_required')
-                                  : null),
-                        ),
-                        const SizedBox(width: 12),
-                        Expanded(
-                          flex: 2,
-                          child: FilledTextField(
-                              tr('credit_card_zip_code_label'),
-                              hint: "XXXXX",
-                              controller: _creditCardZipCodeController,
-                              type: AppTextFieldType.number,
-                              enabled: !_loading,
-                              verticalPadding: 20,
-                              validator: (value) => value!.isEmpty
-                                  ? tr('credit_card_zip_code_required')
-                                  : null),
-                        ),
-                      ],
-                    ),
+
+                    // Row(
+                    //   crossAxisAlignment: CrossAxisAlignment.center,
+                    //   children: [
+                    //     Expanded(
+                    //       flex: 2,
+                    //       child: FilledTextField(tr('credit_card_number_label'),
+                    //           hint: "XXXX XXXX XXXX XXXX",
+                    //           controller: _creditCardNumberController,
+                    //           type: AppTextFieldType.creditCardNumber,
+                    //           enabled: !_loading,
+                    //           verticalPadding: 20,
+                    //           validator: (value) => value!.isEmpty
+                    //               ? tr('credit_card_number_required')
+                    //               : null),
+                    //     ),
+                    //     const SizedBox(width: 12),
+                    //     Expanded(
+                    //       child: FilledTextField(
+                    //           tr('credit_card_expiry_date_label'),
+                    //           hint: "MM/YY",
+                    //           controller: _creditCardExpiryDateController,
+                    //           type: AppTextFieldType.creditCardExpiry,
+                    //           enabled: !_loading,
+                    //           verticalPadding: 20,
+                    //           validator: (value) => value!.isEmpty
+                    //               ? tr('credit_card_expiry_date_required')
+                    //               : null),
+                    //     ),
+                    //   ],
+                    // ),
+                    // Row(
+                    //   crossAxisAlignment: CrossAxisAlignment.center,
+                    //   children: [
+                    //     Expanded(
+                    //       flex: 2,
+                    //       child: FilledTextField(tr('credit_card_cvv_label'),
+                    //           hint: "XXX",
+                    //           controller: _creditCardCvvController,
+                    //           type: AppTextFieldType.creditCardCvv,
+                    //           enabled: !_loading,
+                    //           verticalPadding: 20,
+                    //           validator: (value) => value!.isEmpty
+                    //               ? tr('credit_card_cvv_required')
+                    //               : null),
+                    //     ),
+                    //     const SizedBox(width: 12),
+                    //     Expanded(
+                    //       flex: 2,
+                    //       child: FilledTextField(
+                    //           tr('credit_card_zip_code_label'),
+                    //           hint: "XXXXX",
+                    //           controller: _creditCardZipCodeController,
+                    //           type: AppTextFieldType.number,
+                    //           enabled: !_loading,
+                    //           verticalPadding: 20,
+                    //           validator: (value) => value!.isEmpty
+                    //               ? tr('credit_card_zip_code_required')
+                    //               : null),
+                    //     ),
+                    //   ],
+                    // ),
                     AppRoundedButton(
                         text: tr('lets_go'),
                         onTap: _validateForm,
@@ -295,33 +308,42 @@ class _UserProfilePageState extends State<UserProfilePage> {
       var fullName = _fullNameController.text.trim(),
           email = _emailController.text.trim(),
           phoneNumber = _phoneNumberController.text.replaceAll(' ', '').trim(),
-          creditCardNumber = _creditCardNumberController.text.trim(),
-          creditCardExpiryDate = _creditCardExpiryDateController.text.trim(),
-          creditCardCvv = _creditCardCvvController.text.trim(),
-          password = _passwordController.text.trim(),
-          creditCardZipCode = _creditCardZipCodeController.text.trim();
+          // creditCardNumber = _creditCardNumberController.text.trim(),
+          // creditCardExpiryDate = _creditCardExpiryDateController.text.trim(),
+          // creditCardCvv = _creditCardCvvController.text.trim(),
+          // creditCardZipCode = _creditCardZipCodeController.text.trim(),
+          password = _passwordController.text.trim();
 
       _userCubit.createUser(
         name: fullName,
         email: email,
         password: password,
         photoUrl: widget.authResult.photoUrl,
-        phoneNumber: phoneNumber,
-        creditCardNumber: creditCardNumber,
-        creditCardExpiryDate: creditCardExpiryDate,
-        creditCardCvv: creditCardCvv,
-        zipCode: creditCardZipCode,
+        phoneNumber: formatPhoneNumberWithDialCode(
+            phoneNumber, _selectedCountry?.dialCode),
+        // creditCardNumber: creditCardNumber,
+        // creditCardExpiryDate: creditCardExpiryDate,
+        // creditCardCvv: creditCardCvv,
+        // zipCode: creditCardZipCode,
       );
     }
   }
 
   void _updateUserInfo(UserEntity user) {
     _phoneNumberController.text = user.phoneNumber;
-    _creditCardNumberController.text = user.creditCardNumber;
-    _creditCardExpiryDateController.text = user.creditCardExpiryDate;
-    _creditCardCvvController.text = user.creditCardCvv;
-    _creditCardZipCodeController.text = user.zipCode;
+    // _creditCardNumberController.text = user.creditCardNumber;
+    // _creditCardExpiryDateController.text = user.creditCardExpiryDate;
+    // _creditCardCvvController.text = user.creditCardCvv;
+    // _creditCardZipCodeController.text = user.zipCode;
     _fullNameController.text = user.name;
     _emailController.text = user.email;
+  }
+
+  Future _pickCountry() async {
+    if (_selectedCountry != null) return null;
+    var country = await showCountryPickerSheet(context);
+    if (country is Country) {
+      setState(() => _selectedCountry = country);
+    }
   }
 }

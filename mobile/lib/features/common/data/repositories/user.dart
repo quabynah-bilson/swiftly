@@ -1,6 +1,5 @@
 import 'package:dartz/dartz.dart';
 import 'package:easy_localization/easy_localization.dart';
-import 'package:flutter/foundation.dart';
 import 'package:injectable/injectable.dart';
 import 'package:mobile/core/utils/extensions.dart';
 import 'package:mobile/features/common/data/data_sources/local/local.dart';
@@ -24,57 +23,66 @@ final class UserRepository implements BaseUserRepository {
     required String name,
     required String email,
     required String phoneNumber,
-    required String creditCardNumber,
-    required String creditCardExpiryDate,
-    required String creditCardCvv,
-    required String zipCode,
     required String password,
+    String? creditCardNumber,
+    String? creditCardExpiryDate,
+    String? creditCardCvv,
+    String? zipCode,
     String? photoUrl,
   }) async {
-    var uid = await _persistentStorage.getUserId();
-    if (uid.isNullOrEmpty()) return right('errors.user_not_found');
+    try {
+      var uid = await _persistentStorage.getUserId();
+      if (uid.isNullOrEmpty()) return right('errors.user_not_found');
 
-    // validate zip code
-    if (zipCode.length != 5) return right(tr('errors.invalid_zip_code'));
+      // validate zip code
+      if (!zipCode.isNullOrEmpty() && zipCode!.length != 5) {
+        return right(tr('errors.invalid_zip_code'));
+      }
 
-    // validate credit card expiry date
-    var (month, year) = _splitCreditCardExpiryDate(creditCardExpiryDate);
-    var now = DateTime.now();
-    if (year < now.year || (year == now.year && month < now.month)) {
-      return right(tr('errors.invalid_credit_card_expiry_date'));
+      // validate credit card expiry date
+      // if (!creditCardExpiryDate.isNullOrEmpty()) {
+      //   var (month, year) = _splitCreditCardExpiryDate(creditCardExpiryDate!);
+      //   var now = DateTime.now();
+      //   if (year < now.year || (year == now.year && month < now.month)) {
+      //     return right(tr('errors.invalid_credit_card_expiry_date'));
+      //   }
+      // }
+
+      // validate phone number
+      if (!_validatePhoneNumber(phoneNumber)) {
+        return right(tr('errors.invalid_phone_number'));
+      }
+
+      // validate credit card number
+      // if (!creditCardNumber!.isCreditCard) {
+      //   return right(tr('errors.invalid_credit_card_number'));
+      // }
+
+      // validate credit card cvv
+      // if (!creditCardCvv.isNullOrEmpty() && creditCardCvv!.length != 3) {
+      //   return right(tr('errors.invalid_credit_card_cvv'));
+      // }
+
+      // @fixme -> bind user to the password
+
+      var user = UserEntity(
+        id: uid!,
+        name: name,
+        email: email,
+        photoUrl: photoUrl ?? '',
+        phoneNumber: phoneNumber,
+        // creditCardNumber: creditCardNumber,
+        // creditCardExpiryDate: creditCardExpiryDate ??= '',
+        // creditCardCvv: creditCardCvv ??= '',
+        // zipCode: zipCode ??= '',
+      );
+      await _remote.createUser(user.fromEntity());
+      await _local.saveUser(user.fromEntity());
+      return left(null);
+    } catch (e) {
+      logger.e(e);
+      return right(tr('errors.something_went_wrong'));
     }
-
-    // validate phone number
-    if (!_validatePhoneNumber(phoneNumber)) {
-      return right(tr('errors.invalid_phone_number'));
-    }
-
-    // validate credit card number
-    if (!creditCardNumber.isCreditCard) {
-      return right(tr('errors.invalid_credit_card_number'));
-    }
-
-    // validate credit card cvv
-    if (creditCardCvv.length != 3) {
-      return right(tr('errors.invalid_credit_card_cvv'));
-    }
-
-    // @fixme -> bind user to the password
-
-    var user = UserEntity(
-      id: uid!,
-      name: name,
-      email: email,
-      photoUrl: photoUrl ?? '',
-      phoneNumber: phoneNumber,
-      creditCardNumber: creditCardNumber,
-      creditCardExpiryDate: creditCardExpiryDate,
-      creditCardCvv: creditCardCvv,
-      zipCode: zipCode,
-    );
-    await _remote.createUser(user.fromEntity());
-    await _local.saveUser(user.fromEntity());
-    return left(null);
   }
 
   @override
@@ -82,23 +90,25 @@ final class UserRepository implements BaseUserRepository {
     var localData = await _local.currentUser;
     var remoteData = await _remote.currentUser;
     remoteData.fold(
-        (l) => l.listen((user) => _local.saveUser(user.fromEntity())),
-        (r) => null);
-    return kReleaseMode
-        ? localData
-        : right(
-            Stream.value(
-              UserEntity(
-                id: (await _persistentStorage.getUserId())!,
-                name: 'John Doe',
-                email: 'john@swiftly.com',
-                photoUrl:
-                    'https://images.unsplash.com/photo-1531384441138-2736e62e0919?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTJ8fGhhbmRzb21lJTIwYmxhY2slMjBtYW58ZW58MHx8MHx8fDA%3D&auto=format&fit=crop&w=800&q=40',
-                phoneNumber: '+44 2342 567690',
-                creditCardNumber: '1234 5678 9012 3456',
-              ),
-            ),
-          );
+      (_) => null,
+      (r) => r.listen((user) => _local.saveUser(user.fromEntity())),
+    );
+    // return kReleaseMode
+    //     ? localData
+    //     : right(
+    //         Stream.value(
+    //           UserEntity(
+    //             id: (await _persistentStorage.getUserId())!,
+    //             name: 'John Doe',
+    //             email: 'john@swiftly.com',
+    //             photoUrl:
+    //                 'https://images.unsplash.com/photo-1531384441138-2736e62e0919?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTJ8fGhhbmRzb21lJTIwYmxhY2slMjBtYW58ZW58MHx8MHx8fDA%3D&auto=format&fit=crop&w=800&q=40',
+    //             phoneNumber: '+44 2342 567690',
+    //             creditCardNumber: '1234 5678 9012 3456',
+    //           ),
+    //         ),
+    //       );
+    return localData;
   }
 
   @override

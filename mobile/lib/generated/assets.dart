@@ -15,9 +15,11 @@ class Assets {
   static const String brandBrandGoogle = 'assets/brand/brand_google.svg';
   static const String brandBrandTwitter = 'assets/brand/brand_twitter.svg';
   static const String brandBrandYoutube = 'assets/brand/brand_youtube.svg';
+  static const String dataCountries = 'assets/data/countries.json';
   static const String imgAppLogo = 'assets/img/app_logo.png';
   static const String imgAppLogoWhite = 'assets/img/app_logo_white.png';
   static const String imgAppstore = 'assets/img/appstore.png';
+  static const String imgEmptyShoppingBag = 'assets/img/empty_shopping_bag.png';
   static const String imgWelcomeBg1 = 'assets/img/welcome_bg_1.webp';
   static const String imgWelcomeBg2 = 'assets/img/welcome_bg_2.webp';
   static const String imgWelcomeBg3 = 'assets/img/welcome_bg_3.webp';

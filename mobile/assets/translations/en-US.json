@@ -3,6 +3,7 @@
   "app_desc": "Elevate your lifestyle with our concierge, offering personalized services and extraordinary experiences.",
   "under_dev_title": "Oops...nothing to see here yet",
   "under_dev_desc": "We're still working on this feature. Please check back later.",
+  "loading_title": "Loading",
   "loading_desc": "Hang on a sec...we are setting up your personalized experience",
   "get_started": "Get started",
   "phone_auth_error_desc": "We are unable to verify your phone number. Please try again later.",
@@ -56,6 +57,8 @@
   "welcome_back": "Welcome back,",
   "edit_info": "Update my profile information",
   "profile_sign_in_message": "Are you a new user? Please sign in to enjoy all the features of our app.",
+  "search": "Search",
+  "search_country_hint": "Enter a country name",
   "errors": {
     "user_not_found": "User not found",
     "auth_error_message": "There was an error authenticating you. Please try again later.",
@@ -66,6 +69,9 @@
     "invalid_credit_card_expiry_date": "Invalid expiry date",
     "invalid_credit_card_number": "Invalid credit card number",
     "invalid_credit_card_cvv": "Invalid CVV",
-    "invalid_phone_number": "The phone number is badly formatted. Please check and try again"
+    "countries_not_found": "There are no countries available at the moment. Please try again later.",
+    "invalid_phone_number": "The phone number is badly formatted. Please check and try again",
+    "countries_error_message": "There was an error fetching the list of countries. Please try again later.",
+    "something_went_wrong": "Oops.. something went wrong. Please try again later."
   }
 }

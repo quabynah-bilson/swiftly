@@ -32,9 +32,9 @@ class _UserProfileTabState extends State<_UserProfileTab> {
 
                 setState(() => _loading = state is LoadingState);
 
-                if (state is ErrorState) {
-                  context.showMessageDialog(state.failure);
-                }
+                // if (state is ErrorState) {
+                //   context.showMessageDialog(state.failure);
+                // }
 
                 if (state is SuccessState<Stream<UserEntity>>) {
                   setState(() => _userStream = state.data);
@@ -127,15 +127,15 @@ class _UserProfileTabState extends State<_UserProfileTab> {
               ),
             ),
           },
-          _buildListTile(
-            icon: TablerIcons.credit_card,
-            label: hashCreditCardNumber(user.creditCardNumber),
-            subtitle: 'Linked Credit Card Number',
-            onTap: () => context.navigator.pushNamed(
-              AppRouter.userProfileRoute,
-              arguments: AuthResult.fromUser(user),
-            ),
-          ),
+          // _buildListTile(
+          //   icon: TablerIcons.credit_card,
+          //   label: hashCreditCardNumber(user.creditCardNumber),
+          //   subtitle: 'Linked Credit Card Number',
+          //   onTap: () => context.navigator.pushNamed(
+          //     AppRouter.userProfileRoute,
+          //     arguments: AuthResult.fromUser(user),
+          //   ),
+          // ),
           AppRoundedButton(
             text: 'Sign out',
             backgroundColor: context.colorScheme.error,
@@ -148,13 +148,13 @@ class _UserProfileTabState extends State<_UserProfileTab> {
       );
 
   Widget _buildAvatar(String? avatarUrl) => avatarUrl.isNullOrEmpty()
-      ? Assets.imgAppstore
+      ? Assets.imgAppLogoWhite
           .avatar(size: context.height * 0.11, circular: true, fromAsset: true)
           .centered()
       : Stack(
           clipBehavior: Clip.none,
           children: [
-            Assets.imgAppstore.avatar(
+            Assets.imgAppLogoWhite.avatar(
                 size: context.height * 0.11, circular: true, fromAsset: true),
             Positioned(
               bottom: -1,

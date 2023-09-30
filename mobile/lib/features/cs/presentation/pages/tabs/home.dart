@@ -87,10 +87,15 @@ class _HomeTabState extends State<_HomeTab> {
   Widget get _buildOrderHistoryList => AnimatedColumn(
         mainAxisSize: MainAxisSize.min,
         children: [
-          Lottie.asset(Assets.animEmptyCart,
-              repeat: false,
-              height: context.width * 0.3,
-              width: context.width * 0.3),
+          // Lottie.asset(Assets.animEmptyCart,
+          //     repeat: false,
+          //     height: context.width * 0.3,
+          //     width: context.width * 0.3),
+          Assets.imgEmptyShoppingBag.asAssetImage(
+            height: context.width * 0.25,
+            width: context.width * 0.25,
+            fit: BoxFit.contain,
+          ),
           const SizedBox(height: 16),
           'There are no orders yet'.h6(context),
           'You can start a new order by tapping the cart icon'.subtitle2(

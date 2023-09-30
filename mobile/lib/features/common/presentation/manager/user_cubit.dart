@@ -15,11 +15,11 @@ class UserCubit extends Cubit<BlocState> {
     required String name,
     required String email,
     required String phoneNumber,
-    required String creditCardNumber,
-    required String creditCardExpiryDate,
-    required String creditCardCvv,
-    required String zipCode,
     required String password,
+    String? creditCardNumber,
+    String? creditCardExpiryDate,
+    String? creditCardCvv,
+    String? zipCode,
     String? photoUrl,
   }) async {
     emit(BlocState.loadingState());
@@ -57,7 +57,8 @@ class UserCubit extends Cubit<BlocState> {
     var result = await _repo.currentUser;
     result.fold(
       (l) => emit(BlocState<String>.errorState(failure: l)),
-      (r) => emit(BlocState<Stream<UserEntity>>.successState(data: r.asBroadcastStream())),
+      (r) => emit(BlocState<Stream<UserEntity>>.successState(
+          data: r.asBroadcastStream())),
     );
   }
 }

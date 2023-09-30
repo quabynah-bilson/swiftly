@@ -1,5 +1,6 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:get_it/get_it.dart';
 import 'package:hive_flutter/hive_flutter.dart';
@@ -23,9 +24,13 @@ Future<void> configureDependencies() async {
   Animate.restartOnHotReload = false;
 
   // initialize intercom
-  await Intercom.instance.initialize(Env.kIntercomAppId,
+  if (!kIsWeb) {
+    await Intercom.instance.initialize(
+      Env.kIntercomAppId,
       iosApiKey: Env.kIntercomIosApiKey,
-      androidApiKey: Env.kIntercomAndroidApiKey);
+      androidApiKey: Env.kIntercomAndroidApiKey,
+    );
+  }
 
   // initialize firebase
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);

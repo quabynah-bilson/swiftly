@@ -1,12 +1,12 @@
 name: mobile
 description: A customer service ticketing mobile application built with Flutter, Stripe & Firebase
-publish_to: 'none'
+publish_to: "none"
 
-version: 1.0.2+1
+version: 1.0.5+1
 
 environment:
-  sdk: '>=3.0.3 <4.0.0'
-  flutter: '>=3.10.4 <4.0.0'
+  sdk: ">=3.0.3 <4.0.0"
+  flutter: ">=3.10.4 <4.0.0"
 
 dependency_overrides:
   http: ^0.13.3
@@ -72,7 +72,6 @@ dev_dependencies:
   json_serializable: ^6.7.1
   copy_with_extension_gen: ^5.0.3
 
-
 flutter:
   uses-material-design: true
   assets:
@@ -80,34 +79,35 @@ flutter:
     - assets/brand/
     - assets/img/
     - assets/translations/
+    - assets/data/
 
 # dart run flutter_launcher_icons
 # make background transparent for android
 flutter_launcher_icons:
   android: "launcher_icon"
   ios: true
-  image_path: "assets/img/appstore.png"
+  image_path: "assets/img/app_logo_white.png"
   min_sdk_android: 21 # android min sdk min:16, default 21
   adaptive_icon_background: "#ffffff"
-  adaptive_icon_foreground: "assets/img/appstore.png"
+  adaptive_icon_foreground: "assets/img/app_logo_white.png"
   adaptive_icon_mask: true
   web:
     generate: true
-    image_path: "assets/img/appstore.png"
+    image_path: "assets/img/app_logo_white.png"
     background_color: "#ffffff"
     theme_color: "#ffffff"
   windows:
     generate: true
-    image_path: "assets/img/appstore.png"
+    image_path: "assets/img/app_logo_white.png"
     icon_size: 48 # min:48, max:256, default: 48
   macos:
     generate: true
-    image_path: "assets/img/appstore.png"
+    image_path: "assets/img/app_logo_white.png"
 
 # dart run flutter_native_splash:create
 flutter_native_splash:
-  image: assets/img/appstore.png
-  image_dark: assets/img/appstore.png
+  image: assets/img/app_logo_white.png
+  image_dark: assets/img/app_logo_white.png
   icon_background_color: "#ffffff"
   color: "#ffffff"
   color_dark: "#ffffff"
@@ -115,9 +115,9 @@ flutter_native_splash:
   web: false
   web_image_mode: contain
   android_12:
-    image: assets/img/appstore.png
+    image: assets/img/app_logo_white.png
     color: "#ffffff"
     icon_background_color: "#ffffff"
     icon_background_color_dark: "#ffffff"
     color_dark: "#ffffff"
-    image_dark: assets/img/appstore.png
+    image_dark: assets/img/app_logo_white.png
