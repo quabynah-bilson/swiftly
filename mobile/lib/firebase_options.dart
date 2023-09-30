@@ -70,7 +70,7 @@ class DefaultFirebaseOptions {
     messagingSenderId: '479771909152',
     projectId: 'swiftly-team',
     storageBucket: 'swiftly-team.appspot.com',
-    iosClientId: '479771909152-n0gssmfktgqc771f49sd1nq5arjm2sc7.apps.googleusercontent.com',
+    iosClientId: '479771909152-fvppav8sikip1skj44qiqj8fght1fur0.apps.googleusercontent.com',
     iosBundleId: 'com.swiftly.ios',
   );
 }

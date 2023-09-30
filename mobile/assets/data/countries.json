@@ -1,20 +1,26 @@
 [
   {
-    "name": "Ghana",
-    "code": "GH",
-    "dial_code": "+233",
-    "flag": "https://www.countryflags.com/wp-content/uploads/ghana-flag-png-large.png"
-  },
-  {
     "name": "United States",
     "code": "US",
     "dial_code": "+1",
-    "flag": "https://www.countryflags.com/wp-content/uploads/united-states-of-america-flag-png-large.png"
+    "flag": "https://cdn.countryflags.com/thumbs/united-states-of-america/flag-800.png"
+  },
+  {
+    "name": "Ghana",
+    "code": "GH",
+    "dial_code": "+233",
+    "flag": "https://cdn.countryflags.com/thumbs/ghana/flag-800.png"
+  },
+  {
+    "name": "Netherlands",
+    "code": "NL",
+    "dial_code": "+31",
+    "flag": "https://cdn.countryflags.com/thumbs/netherlands/flag-800.png"
   },
   {
     "name": "United Kingdom",
     "code": "GB",
     "dial_code": "+44",
-    "flag": "https://www.countryflags.com/wp-content/uploads/united-kingdom-flag-png-large.png"
+    "flag": "https://cdn.countryflags.com/thumbs/united-kingdom/flag-800.png"
   }
 ]

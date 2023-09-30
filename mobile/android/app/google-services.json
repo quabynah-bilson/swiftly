@@ -14,6 +14,30 @@
       },
       "oauth_client": [
         {
+          "client_id": "479771909152-mle48fjas8ibb4pgrahk819vt4g5lh1c.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.swiftly.android",
+            "certificate_hash": "8e6f22de61cb70b5babd0c143d9055d25520b7f9"
+          }
+        },
+        {
+          "client_id": "479771909152-mle48fjas8ibb4pgrahk819vt4g5lh1c.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.swiftly.android",
+            "certificate_hash": "34da2328406665eb7d4d53d271113bf3558b1af0"
+          }
+        },
+        {
+          "client_id": "479771909152-mle48fjas8ibb4pgrahk819vt4g5lh1c.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.swiftly.android",
+            "certificate_hash": "71D5612DD6DC781C701297C249AE24C7DEA33F69"
+          }
+        },
+        {
           "client_id": "479771909152-nni5pgq221b3hmm5te3lffm20b3rr96g.apps.googleusercontent.com",
           "client_type": 3
         }
@@ -31,7 +55,7 @@
               "client_type": 3
             },
             {
-              "client_id": "479771909152-n0gssmfktgqc771f49sd1nq5arjm2sc7.apps.googleusercontent.com",
+              "client_id": "479771909152-fvppav8sikip1skj44qiqj8fght1fur0.apps.googleusercontent.com",
               "client_type": 2,
               "ios_info": {
                 "bundle_id": "com.swiftly.ios"
