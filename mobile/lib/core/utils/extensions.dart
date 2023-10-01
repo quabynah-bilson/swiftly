@@ -96,7 +96,7 @@ extension BuildContextX on BuildContext {
               ).top(40),
             ),
           ],
-        ).top(24),
+        ).top(24).bottom(padding.bottom + 24),
       );
     } else {
       await showCupertinoModalBottomSheet(
@@ -145,7 +145,7 @@ extension BuildContextX on BuildContext {
               ).top(40),
             ),
           ],
-        ).top(24),
+        ).top(24).bottom(padding.bottom + 24),
       );
     }
   }

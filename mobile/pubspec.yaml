@@ -2,7 +2,7 @@ name: mobile
 description: A customer service ticketing mobile application built with Flutter, Stripe & Firebase
 publish_to: "none"
 
-version: 1.0.5+1
+version: 1.0.6+1
 
 environment:
   sdk: ">=3.0.3 <4.0.0"
@@ -48,7 +48,6 @@ dependencies:
   google_sign_in: ^6.1.4
   flutter_localizations:
     sdk: flutter
-  sign_in_with_apple: ^5.0.0
   json_annotation: ^4.8.1
   crypto: ^3.0.3
   cloud_firestore: ^4.8.4

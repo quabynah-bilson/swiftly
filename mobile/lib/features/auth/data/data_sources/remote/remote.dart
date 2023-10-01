@@ -18,7 +18,6 @@ import 'package:mobile/features/auth/domain/entities/country.dart';
 import 'package:mobile/features/auth/domain/entities/phone.auth.response.dart';
 import 'package:mobile/features/common/domain/repositories/persistent.storage.dart';
 import 'package:shared_utils/shared_utils.dart';
-import 'package:sign_in_with_apple/sign_in_with_apple.dart';
 
 @lazySingleton
 final class AuthRemoteDataSource {
@@ -45,25 +44,23 @@ final class AuthRemoteDataSource {
 
   Future<Either<String, AuthResult>> signInWithApple() async {
     try {
-      final appleCredential = await SignInWithApple.getAppleIDCredential(
-          scopes: AppleIDAuthorizationScopes.values);
-      final oauthCredential = OAuthProvider("apple.com").credential(
-        idToken: appleCredential.identityToken,
-        rawNonce: rawNonce,
-      );
+      var appleAuthProvider = AppleAuthProvider();
+      appleAuthProvider.addScope('email');
+      appleAuthProvider.addScope('name');
+
       var credential =
-          await _firebaseAuth.signInWithCredential(oauthCredential);
+          await _firebaseAuth.signInWithProvider(appleAuthProvider);
       var user = credential.user;
       if (user == null) return left(tr('errors.auth_error_message'));
       await _persistentStorage.saveUserId(user.uid);
 
       String firstName = '', lastName = '';
-      if (appleCredential.givenName != null) {
-        firstName = appleCredential.givenName!;
-      }
-
-      if (appleCredential.familyName != null) {
-        lastName = appleCredential.familyName!;
+      if (user.displayName != null) {
+        var names = user.displayName!.split(' ');
+        firstName = names[0];
+        if (names.length > 1) {
+          lastName = names[1];
+        }
       }
 
       var result = AuthResult.create(
