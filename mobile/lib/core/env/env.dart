@@ -6,6 +6,9 @@ part 'env.g.dart';
 // env class
 @Envied(obfuscate: true)
 abstract class Env {
+  @EnviedField(varName: 'GOOGLE_CLIENT_ID')
+  static final String kGoogleClientID = _Env.kGoogleClientID;
+
   @EnviedField(varName: 'INTERCOM_APP_ID')
   static final String kIntercomAppId = _Env.kIntercomAppId;
 

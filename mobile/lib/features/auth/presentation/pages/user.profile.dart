@@ -200,7 +200,7 @@ class _UserProfilePageState extends State<UserProfilePage> {
                     const Divider().bottom(20),
                     FilledTextField(tr('phone_number_label'),
                         controller: _phoneNumberController,
-                        keyboardType: TextInputType.phone,
+                        type: AppTextFieldType.number,
                         hint: tr('phone_number_hint'),
                         enabled:
                             widget.authResult.phoneNumber.isNullOrEmpty() &&

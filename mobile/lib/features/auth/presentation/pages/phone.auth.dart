@@ -111,6 +111,7 @@ class _PhoneAuthPageState extends State<PhoneAuthPage> {
                           length: 6,
                           controller: _pinController,
                           defaultPinTheme: _pinTheme,
+                          keyboardType: TextInputType.number,
                           autofocus: true,
                           separatorBuilder: (_) => const SizedBox(width: 16),
                           focusedPinTheme: _pinTheme.copyWith(
@@ -143,9 +144,9 @@ class _PhoneAuthPageState extends State<PhoneAuthPage> {
                           tr('phone_number_label'),
                           hint: tr('phone_number_hint'),
                           countryCode: _selectedCountry?.code ?? '',
+                          type: AppTextFieldType.number,
                           enabled: !_loading,
                           controller: _phoneController,
-                          keyboardType: TextInputType.phone,
                           validator: Validators.validatePhone,
                           autofocus: true,
                           onTap: _pickCountry,

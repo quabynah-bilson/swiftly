@@ -1,12 +1,12 @@
-import 'dart:io';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:flutter/foundation.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:injectable/injectable.dart';
 import 'package:intercom_flutter/intercom_flutter.dart';
+import 'package:mobile/core/env/env.dart';
 import 'package:mobile/features/common/data/models/user.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:shared_utils/shared_utils.dart';
@@ -25,7 +25,9 @@ abstract class FirebaseModule {
   @preResolve
   Future<FirebaseMessaging> get firebaseMessaging async {
     var messaging = FirebaseMessaging.instance;
-    var token = Platform.isIOS
+    if (kIsWeb) return messaging;
+
+    var token = defaultTargetPlatform == TargetPlatform.iOS
         ? await messaging.getAPNSToken()
         : await messaging.getToken();
     logger.i('FirebaseMessaging token: $token');
@@ -43,7 +45,7 @@ abstract class FirebaseModule {
   FirebaseAuth get firebaseAuth => FirebaseAuth.instance;
 
   @lazySingleton
-  GoogleSignIn get googleSignIn => GoogleSignIn();
+  GoogleSignIn get googleSignIn => GoogleSignIn(clientId: Env.kGoogleClientID);
 
   @singleton
   FirebaseFirestore get firestore => FirebaseFirestore.instance;

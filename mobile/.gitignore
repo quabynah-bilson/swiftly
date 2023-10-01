@@ -49,4 +49,7 @@ app.*.map.json
 windows/
 macos/
 linux/
-web/
+
+**/.metadata
+**/*.lock
+

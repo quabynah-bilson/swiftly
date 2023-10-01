@@ -6,7 +6,6 @@ import 'package:intercom_flutter/intercom_flutter.dart';
 import 'package:mobile/core/di/injector.dart';
 import 'package:mobile/core/routing/router.dart';
 import 'package:mobile/core/utils/extensions.dart';
-import 'package:mobile/core/utils/strings.dart';
 import 'package:mobile/features/auth/domain/entities/auth.result.dart';
 import 'package:mobile/features/auth/presentation/manager/auth_cubit.dart';
 import 'package:mobile/features/common/domain/entities/user.dart';

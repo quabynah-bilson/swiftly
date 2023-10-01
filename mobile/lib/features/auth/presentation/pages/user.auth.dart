@@ -1,6 +1,5 @@
-import 'dart:io';
-
 import 'package:easy_localization/easy_localization.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -87,7 +86,7 @@ class _UserAuthPageState extends State<UserAuthPage> {
                           crossAxisAlignment: CrossAxisAlignment.center,
                           mainAxisAlignment: MainAxisAlignment.end,
                           children: [
-                            if (Platform.isIOS)
+                            if (defaultTargetPlatform == TargetPlatform.iOS)
                               AuthButton(
                                   label: 'auth_sign_in_with_apple'.tr(),
                                   backgroundColor:

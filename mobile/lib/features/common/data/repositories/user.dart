@@ -123,11 +123,11 @@ final class UserRepository implements BaseUserRepository {
     await _local.saveUser(user.fromEntity());
   }
 
-  (int, int) _splitCreditCardExpiryDate(String creditCardExpiryDate) {
-    var month = creditCardExpiryDate.split('/')[0];
-    var year = creditCardExpiryDate.split('/')[1];
-    return (int.parse(month), int.parse('20$year'));
-  }
+  // (int, int) _splitCreditCardExpiryDate(String creditCardExpiryDate) {
+  //   var month = creditCardExpiryDate.split('/')[0];
+  //   var year = creditCardExpiryDate.split('/')[1];
+  //   return (int.parse(month), int.parse('20$year'));
+  // }
 
   bool _validatePhoneNumber(String phoneNumber) {
     var pattern = r'^(\+?\d{1,3})? ?(\d{2,3}){1,3} ?\d{4,5}$';

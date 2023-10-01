@@ -24,13 +24,21 @@ Future<void> configureDependencies() async {
   Animate.restartOnHotReload = false;
 
   // initialize intercom
-  if (!kIsWeb) {
-    await Intercom.instance.initialize(
-      Env.kIntercomAppId,
-      iosApiKey: Env.kIntercomIosApiKey,
-      androidApiKey: Env.kIntercomAndroidApiKey,
-    );
+  String appId, androidKey, iOSKey;
+  if (kIsWeb) {
+    appId = Env.kIntercomAppId;
+    androidKey = Env.kIntercomAndroidApiKey;
+    iOSKey = Env.kIntercomIosApiKey;
+  } else {
+    appId = String.fromEnvironment("INTERCOM_APP_ID",
+        defaultValue: Env.kIntercomAppId);
+    androidKey = String.fromEnvironment("INTERCOM_ANDROID_KEY",
+        defaultValue: Env.kIntercomAndroidApiKey);
+    iOSKey = String.fromEnvironment("INTERCOM_IOS_KEY",
+        defaultValue: Env.kIntercomIosApiKey);
   }
+  await Intercom.instance
+      .initialize(appId, iosApiKey: iOSKey, androidApiKey: androidKey);
 
   // initialize firebase
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
