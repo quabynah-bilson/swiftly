@@ -1,4 +1,5 @@
 import 'package:easy_localization/easy_localization.dart';
+import 'package:fast_cached_network_image/fast_cached_network_image.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_animate/flutter_animate.dart';
@@ -46,6 +47,9 @@ Future<void> configureDependencies() async {
   // initialize hive
   await Hive.initFlutter();
   Hive.registerAdapter(UserAdapter());
+
+  // initialize fast cached image
+  await FastCachedImageConfig.init();
 
   // initialize injectable
   await sl.init();

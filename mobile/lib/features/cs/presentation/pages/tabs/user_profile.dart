@@ -165,7 +165,7 @@ class _UserProfileTabState extends State<_UserProfileTab> {
                     border: Border.all(
                         color: context.colorScheme.background, width: 4),
                   ),
-                  child: avatarUrl.avatar(
+                  child: avatarUrl.renderCachedImage(
                       size: context.height * 0.06, circular: true)),
             ),
           ],

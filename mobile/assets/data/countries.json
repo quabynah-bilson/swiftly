@@ -3,24 +3,24 @@
     "name": "United States",
     "code": "US",
     "dial_code": "+1",
-    "flag": "https://cdn.countryflags.com/thumbs/united-states-of-america/flag-800.png"
+    "flag": "https://firebasestorage.googleapis.com/v0/b/swiftly-team.appspot.com/o/united-states-of-america-flag-medium.png?alt=media&token=278d9dfe-f2b7-4e73-ae12-914639f36f7f&_gl=1*1epydm5*_ga*OTEwMTU2NjQuMTY5NTgyMDA4OQ..*_ga_CW55HF8NVT*MTY5NjI1ODg3NC4xMy4xLjE2OTYyNTkwODQuMzQuMC4w"
   },
   {
     "name": "Ghana",
     "code": "GH",
     "dial_code": "+233",
-    "flag": "https://cdn.countryflags.com/thumbs/ghana/flag-800.png"
+    "flag": "https://firebasestorage.googleapis.com/v0/b/swiftly-team.appspot.com/o/ghana-flag-medium.png?alt=media&token=c525302c-86ab-4f88-a93e-5f60963760a3&_gl=1*ksa6wh*_ga*OTEwMTU2NjQuMTY5NTgyMDA4OQ..*_ga_CW55HF8NVT*MTY5NjI1ODg3NC4xMy4xLjE2OTYyNTg4NzYuNTguMC4w"
   },
   {
     "name": "Netherlands",
     "code": "NL",
     "dial_code": "+31",
-    "flag": "https://cdn.countryflags.com/thumbs/netherlands/flag-800.png"
+    "flag": "https://firebasestorage.googleapis.com/v0/b/swiftly-team.appspot.com/o/netherlands-flag-medium.png?alt=media&token=f170c4d7-ca0f-4cf0-8faf-4c460df59137&_gl=1*3lf20w*_ga*OTEwMTU2NjQuMTY5NTgyMDA4OQ..*_ga_CW55HF8NVT*MTY5NjI1ODg3NC4xMy4xLjE2OTYyNTkwNTguNjAuMC4w"
   },
   {
     "name": "United Kingdom",
     "code": "GB",
     "dial_code": "+44",
-    "flag": "https://cdn.countryflags.com/thumbs/united-kingdom/flag-800.png"
+    "flag": "https://firebasestorage.googleapis.com/v0/b/swiftly-team.appspot.com/o/united-kingdom-flag-medium.png?alt=media&token=74a037c2-dcc5-4151-97ee-bdd3e2e582ac&_gl=1*9c6bjo*_ga*OTEwMTU2NjQuMTY5NTgyMDA4OQ..*_ga_CW55HF8NVT*MTY5NjI1ODg3NC4xMy4xLjE2OTYyNTkwNzQuNDQuMC4w"
   }
 ]

@@ -53,3 +53,5 @@ linux/
 **/.metadata
 **/*.lock
 
+.firebase/
+

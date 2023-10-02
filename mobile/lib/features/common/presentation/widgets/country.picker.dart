@@ -1,4 +1,5 @@
 import 'package:easy_localization/easy_localization.dart';
+import 'package:fast_cached_network_image/fast_cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:heroicons/heroicons.dart';
@@ -48,7 +49,7 @@ class CountryPickerPrefix extends StatelessWidget {
             mainAxisSize: MainAxisSize.min,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              country!.flag.avatar(size: 24),
+              FastCachedImage(url: country!.flag, width: 24, height: 24),
               country!.dialCode.subtitle2(context).left(6),
             ],
           ).horizontal(12),
@@ -135,7 +136,8 @@ Future<Country?> showCountryPickerSheet(BuildContext context) async {
                           ),
                           child: ListTile(
                             onTap: () => context.navigator.pop(country),
-                            leading: country.flag.avatar(size: 24),
+                            leading: FastCachedImage(
+                                url: country.flag, width: 24, height: 24),
                             title: country.name.bodyText1(context),
                             subtitle: country.dialCode.subtitle2(context),
                           ),

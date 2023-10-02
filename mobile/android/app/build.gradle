@@ -46,7 +46,7 @@ apply from: "$flutterRoot/packages/flutter_tools/gradle/flutter.gradle"
 
 android {
     namespace "com.swiftly.android"
-    compileSdkVersion flutter.compileSdkVersion
+    compileSdkVersion 34 //flutter.compileSdkVersion
     ndkVersion flutter.ndkVersion
 
     compileOptions {
@@ -65,7 +65,7 @@ android {
     defaultConfig {
         applicationId "com.swiftly.android"
         minSdkVersion 23
-        targetSdkVersion flutter.targetSdkVersion
+        targetSdkVersion 34//flutter.targetSdkVersion
         versionCode 7 // flutterVersionCode.toInteger()
         versionName flutterVersionName
 

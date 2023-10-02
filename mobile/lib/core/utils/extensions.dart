@@ -1,4 +1,5 @@
 import 'package:easy_localization/easy_localization.dart';
+import 'package:fast_cached_network_image/fast_cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
@@ -173,4 +174,29 @@ extension StringX on String? {
     var updatedValue = this!.trim().replaceAll(' ', '');
     return updatedValue.length == 16 && updatedValue.isNumeric;
   }
+
+  Widget renderCachedImage({
+    double size = 48,
+    bool circular = false,
+  }) =>
+      this == null || !this!.startsWith('http')
+          ? circular
+              ? avatar(size: size, circular: true)
+              : asNetworkImage(size: size)
+          : Image.network(
+              this!,
+              fit: BoxFit.cover,
+              width: size,
+              height: size,
+            ).circularClip(circular ? size : size / 4);
+// : FastCachedImage(
+//     url: this!,
+//     width: size,
+//     height: size,
+//     fit: BoxFit.cover,
+//     loadingBuilder: (context, url) =>
+//         avatar(size: size, circular: true),
+//     errorBuilder: (context, url, error) =>
+//         avatar(size: size, circular: true),
+//   ).circularClip(circular ? size : size / 4);
 }

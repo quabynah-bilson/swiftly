@@ -33,7 +33,7 @@ class _SwiftlyAppState extends State<SwiftlyApp> {
               localizationsDelegates: context.localizationDelegates,
               supportedLocales: context.supportedLocales,
               locale: context.locale,
-              title: tr('app_name'),
+              title: 'Swiftly',
               theme: context.useLightTheme,
               darkTheme: context.useDarkTheme,
               themeMode: ThemeMode.light,
